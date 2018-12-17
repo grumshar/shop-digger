@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add product</title>
+</head>
+<body>
+
+    <form method="post" th:action="@{/add-product}" th:object="${productToAdd}">
+        <input type="hidden" th:field="*{id}">
+
+        <label th:for="name">Name</label>
+        <input type="text" name="name" id="name" th:field="*{name}">
+
+        <label th:for="price">Price</label>
+        <input type="number" name="price" id="price" th:field="*{price}">
+
+        <label th:for="unitAmount">Unit Amount</label>
+        <input type="number" name="unitAmount" id="unitAmount" th:field="*{unitAmount}">
+
+        <label th:for="unit">Unit</label>
+        <select th:field="*{unit}" id="unit" name="unit">
+            <option th:each="unit : ${unitType}"
+                    th:value="${unit}"
+                    th:text="${unit}">
+            </option>
+        </select>
+
+        <label th:for="category">Category</label>
+        <select th:field="*{category}" id="category" name="category">
+            <option th:value="dairy">Nabiał</option>
+        </select>
+
+        <label th:for="description">Description</label>
+        <textarea id="description" name="description" th:field="*{description}"></textarea>
+
+        <label th:for="eanCode">EAN Code</label>
+        <input type="number" name="eanCode" id="eanCode" th:field="*{eanCode}">
+
+        <input type="submit" value="Send!">
+
+    </form>
+
+</body>
+</html>
