@@ -1,5 +1,7 @@
 package com.shopproject.shopdigger.model;
 
+import com.shopproject.shopdigger.model.enums.UserStatus;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,6 +15,11 @@ public class User {
     private String secondName;
     private String phoneNumber;
     private String mail;
+    private String login;
+    private String password;
+    private String token;
+    @Enumerated
+    private UserStatus userStatus;
     @OneToOne
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
@@ -22,13 +29,12 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String secondName, String phoneNumber, String mail, Address address, List<Order> orderList) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.phoneNumber = phoneNumber;
-        this.mail = mail;
-        this.address = address;
-        this.orderList = orderList;
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
     }
 
     public Long getId() {
@@ -37,6 +43,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getFirstName() {
@@ -71,6 +85,23 @@ public class User {
         this.mail = mail;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
     public Address getAddress() {
         return address;
     }
@@ -81,10 +112,6 @@ public class User {
 
     public List<Order> getOrderList() {
         return orderList;
-    }
-
-    public void setOrderLisr(List<Order> orderList) {
-        this.orderList = orderList;
     }
 
     public void setOrderList(List<Order> orderList) {
