@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Admin Product List</title>
+</head>
+
+<body>
+<h1>ProductList</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th th:text="#{msg.id}"/>
+        <th th:text="#{msg.name}"/>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product, iStat : ${productPage.content}"
+        th:style="${iStat.odd}? 'font-weight: bold;'"
+        th:alt-title="${iStat.even}? 'even' : 'odd'">
+        <td th:text="${product.id}" />
+        <td th:text="${product.name}" />
+        <td><a th:href="@{'/edit-product/' + ${product.id}}">Edit</a> </td>
+        <td><a th:href="@{'/delete-confirmation/' + ${product.id}}">Delete</a> </td>
+    </tr>
+    </tbody>
+</table>
+<div th:if="${productPage.totalPages > 0}" class="pagination"
+     th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/admin-product-list(size=${productPage.size}, page=${pageNumber})}"
+       th:text="${pageNumber}"
+       th:class="${pageNumber==productPage.number + 1} ? active"></a>
+</div>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.shopproject.shopdigger.model;
 import com.shopproject.shopdigger.model.enums.Unit;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
@@ -16,7 +17,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Unit unit;
     private double unitAmount;
     @Lob

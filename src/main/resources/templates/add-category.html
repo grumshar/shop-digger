@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add category</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/add-product.css}"/>
+</head>
+<body>
+
+    <div class="container">
+    <form method="post" th:action="@{/add-category}" th:object="${categoryToAdd}">
+
+        <h1>Add category</h1>
+
+        <!--<input class="form-item" type="hidden" id="id" name="id" th:field="*{id}">-->
+
+        <label th:for="parentCategoryId">Parent Category</label>
+        <select class="form-item" th:field="*{parentCategoryId}" id="parentCategoryId" name="parentCategoryId">
+            <option th:each="parentCategory : ${categories}"
+                    th:value="${parentCategory.id}"
+                    th:text="${parentCategory.name}">
+            </option>
+        </select>
+
+        <label th:for="name">Subcategory name</label>
+        <input class="form-item" type="text" name="name" id="name" th:field="*{name}">
+
+        <input class="form-item btn btn-secondary" type="submit" value="Send!">
+
+    </form>
+    </div>
+</body>
+</html>

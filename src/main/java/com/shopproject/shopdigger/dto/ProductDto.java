@@ -2,9 +2,11 @@ package com.shopproject.shopdigger.dto;
 
 import com.shopproject.shopdigger.model.Category;
 import com.shopproject.shopdigger.model.enums.Unit;
+import org.springframework.stereotype.Controller;
 
 import java.math.BigDecimal;
 
+@Controller
 public class ProductDto {
 
     private Long id;
@@ -14,6 +16,7 @@ public class ProductDto {
     private Unit unit;
     private double unitAmount;
     private String description;
+    private Long eanCode;
 
     public Long getId() {
         return id;
@@ -69,5 +72,27 @@ public class ProductDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getEanCode() {
+        return eanCode;
+    }
+
+    public void setEanCode(Long eanCode) {
+        this.eanCode = eanCode;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", category=" + category +
+                ", unit=" + unit +
+                ", unitAmount=" + unitAmount +
+                ", description='" + description + '\'' +
+                ", eanCode=" + eanCode +
+                '}';
     }
 }

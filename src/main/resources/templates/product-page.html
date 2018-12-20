@@ -6,10 +6,12 @@
 </head>
 <body>
 
-    <p th:text="${productToDisplay.id}">Product ID</p>
     <p th:text="${productToDisplay.name}">Product name</p>
     <p th:text="${productToDisplay.price}">Product price</p>
-    <p th:text="${productToDisplay.category}">Product category</p>
+    <p th:text="${productToDisplay.category.name}">Product category</p>
+    <p th:text="${productToDisplay.unit}">Product unit</p>
+    <p th:text="${productToDisplay.unitAmount}">Product unit amount</p>
+    <p th:text="${productToDisplay.description}">Product description</p>
     <p th:text="${classToDisplay}">Product category</p>
 
 </body>
