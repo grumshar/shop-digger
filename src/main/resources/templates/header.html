@@ -1,10 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/index.css}"/>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Home Page</title>
 </head>
 <body>
 
+<div th:fragment="header">
+<nav class="navbar navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-div navbar-left">
+            <a class="navbar-brand" href="#">ShopDigger</a>
+        </div>
+
+        <div class="search">
+            <form class="navbar-form navbar-left" action="/action_page.php">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Account
+                                <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div class="navbar-content">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <img src="http://placehold.it/120x120"
+                                                         alt="Alternate Text" class="img-responsive" />
+                                                    <p class="text-center small">
+                                                        <a href="#">Change Photo</a></p>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <span>Bhaumik Patel</span>
+                                                    <p class="text-muted small">
+                                                        mail@gmail.com</p>
+                                                    <div class="divider">
+                                                    </div>
+                                                    <a href="#" class="btn btn-primary btn-sm active">View Profile</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="navbar-footer">
+                                            <div class="navbar-footer-content">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <a href="#" class="btn btn-default btn-sm">Change Passowrd</a>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <a href="http://www.jquery2dotnet.com" class="btn btn-default btn-sm pull-right">Sign Out</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a th:href="@{/register}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <nav class="clearfix site-nav navbar-second-pushed">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

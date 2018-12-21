@@ -19,3 +19,14 @@
 label {
     font-weight: bold;
 }
+
+.disabled {
+    background-color: #CCD7DE;
+    font-size: 110%;
+    font-weight: bold;
+    color: #000000;
+}
+
+.normal {
+    font-weight: lighter;
+}

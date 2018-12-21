@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -30,9 +33,29 @@ public class CategoryServiceImpl implements CategoryService {
         return true;
     }
 
-    public List<Category> getAllCategoriesList(){
-        Iterable<Category> unsortedList = categoryRepository.findAll();
-        List<Category> sortedList = new ArrayList<>();
-        return null;
+    @Override
+    public List<Category> getAllCategoriesList() {
+        List<Category> categoryList = new ArrayList<>();
+        categoryRepository.findAll().forEach(category -> categoryList.add(category));
+        categoryList.sort(Comparator.comparing(Category::getName));
+        List<Category> mainCategories = new ArrayList<>();
+        List<Category> subCategories = new ArrayList<>();
+        for(int i = 0; i < categoryList.size(); i++){
+            if(categoryList.get(i).getParentCategoryId() == null){
+                mainCategories.add(categoryList.get(i));
+            } else {
+                subCategories.add(categoryList.get(i));
+            }
+        }
+        categoryList.clear();
+        for(int i = 0; i < mainCategories.size(); i++){
+            categoryList.add(mainCategories.get(i));
+            for(int j = 0; j < subCategories.size(); j++){
+                if(subCategories.get(j).getParentCategoryId().equals(mainCategories.get(i).getId())){
+                    categoryList.add(subCategories.get(j));
+                }
+            }
+        }
+        return categoryList;
     }
 }

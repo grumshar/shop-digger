@@ -31,19 +31,21 @@
             </option>
         </select>
 
-        <div class="dropdown form-item">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Choose main category
-            </a>
+        <!--<div class="dropdown form-item">-->
+            <!--<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                <!--Choose main category-->
+            <!--</a>-->
 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" th:each="category : ${categories}" th:href="@{/add-product(parentCategory=${category.id})}" th:method="post" th:text="${category.name}" th:value="${category.id}">Category</a>
-            </div>
-        </div>
+            <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
+                <!--<a class="dropdown-item" th:each="category : ${categories}" th:href="@{/add-product(parentCategory=${category.id})}" th:method="post" th:text="${category.name}" th:value="${category.id}">Category</a>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <label th:for="category">Category</label>
         <select class="form-item" th:field="*{category}" id="category" name="category">
             <option th:each="subcategory : ${subcategories}"
+                    th:disabled="${subcategory.parentCategoryId == null} ? true : false"
+                    th:class="${subcategory.parentCategoryId == null} ? 'disabled' : 'normal'"
                     th:value="${subcategory.id}"
                     th:text="${subcategory.name}">
             </option>

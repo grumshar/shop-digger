@@ -1,3 +1,90 @@
 .navbar{
     background-color: #CCD7DE;
 }
+
+.navbar-second-pushed {
+    margin-top: 50px;
+    border-top: 2px solid black;
+}
+
+.navbar-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    margin-top: 20px;
+}
+
+.navbar-wrapper .container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.navbar-wrapper .navbar {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.navbar-content {
+    width:320px;
+    padding: 15px;
+    padding-bottom:0px;
+}
+
+.navbar-content:before, .navbar-content:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: 15px !important;
+}
+
+.dropdown-menu {
+    padding: 0px;
+    overflow: hidden;
+}
+
+.site-nav {
+    border-top: 2px solid #84AE7B;
+    border-right: 2px solid #84AE7B;
+}
+
+.site-nav ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+.site-nav li {
+    list-style: none;
+    float: left;
+    border-left: 2px solid #84AE7B;
+    border-bottom: none;
+    border-top: none;
+    width: 12.5%;
+    box-sizing: border-box;
+}
+
+.site-nav a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.site-nav a:hover {
+    background-color: #84AE7B;
+    color: #FFFFFF;
+}
+
+.clearfix::before,
+.clearfix::after {
+    content: "";
+    display: table;
+}
+
+.clearfix::after {
+    clear: both;
+}

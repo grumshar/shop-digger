@@ -50,11 +50,8 @@ public class ProductController {
     @GetMapping("/add-product")
     public String showAddProductPage(Model model, @RequestParam(value = "parentCategory", required = false) Long id, @ModelAttribute("productToAdd") Product product){
         model.addAttribute("productToAdd", new Product());
-        model.addAttribute("categories", categoryService.findCategoriesByParentCategoryId(null));
-        if(id == null){
-            id = 999999999L;
-        }
-        model.addAttribute("subcategories", categoryService.findCategoriesByParentCategoryId(id));
+        //model.addAttribute("categories", categoryService.findCategoriesByParentCategoryId(null));
+        model.addAttribute("subcategories", categoryService.getAllCategoriesList());
         model.addAttribute("units", Unit.values());
         return "add-product";
     }
@@ -110,6 +107,7 @@ public class ProductController {
         Product product = productService.getProductById(id).get();
         model.addAttribute("productToEdit", product);
         model.addAttribute("units", Unit.values());
+        model.addAttribute("subcategories", categoryService.getAllCategoriesList());
         return "edit-product";
     }
 }
