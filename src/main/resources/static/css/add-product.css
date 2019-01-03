@@ -4,6 +4,7 @@
     border-radius: 10px;
     padding: 20px;
     margin: 20px auto;
+    margin-top: 65px;
 }
 
 .form-item {
@@ -27,6 +28,44 @@ label {
     color: #000000;
 }
 
-.normal {
+.site-nav {
+    border-top: 2px solid #37373F;
+    border-right: 2px solid #37373F;
+    border-bottom: 2px solid #37373F;
+    box-shadow: 2px 3px 10px 1px rgba(0,0,0,0.75);
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    background-color: #FFFFFF;
+}
+
+.site-nav ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+.site-nav li {
+    list-style: none;
+    float: left;
+    border-left: 2px solid #37373F;
+    border-bottom: none;
+    border-top: none;
+    width: 14.28%;
+    box-sizing: border-box;
+}
+
+.site-nav a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #000000;
+}
+
+.site-nav a:hover {
+    background-color: #37373F;
+    color: #FFFFFF;
+}
+
+.modal-own-text {
     font-weight: lighter;
 }

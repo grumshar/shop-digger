@@ -5,6 +5,7 @@ import com.shopproject.shopdigger.model.Category;
 import com.shopproject.shopdigger.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +32,21 @@ public class CategoryServiceImpl implements CategoryService {
     public boolean save(Category category) {
         categoryRepository.save(category);
         return true;
+    }
+
+    public List<Category> getAllCategories(){
+        Iterable<Category> iterable = categoryRepository.findAll();
+        List<Category> result = new ArrayList<>();
+        iterable.forEach(category -> result.add(category));
+        return result;
+    }
+
+    @Override
+    public List<Category> getCategoriesWhereParentCategoryNotNull(){
+        Iterable<Category> iterable = categoryRepository.findCategoriesByParentCategoryIdNotNull();
+        List<Category> result = new ArrayList<>();
+        iterable.forEach(category -> result.add(category));
+        return result;
     }
 
     @Override

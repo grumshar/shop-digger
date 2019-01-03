@@ -8,12 +8,12 @@
 </head>
 <body>
 
+    <div th:replace="header :: panel"></div>
+
     <div class="container">
     <form method="post" th:action="@{/add-category}" th:object="${categoryToAdd}">
 
         <h1>Add category</h1>
-
-        <!--<input class="form-item" type="hidden" id="id" name="id" th:field="*{id}">-->
 
         <label th:for="parentCategoryId">Parent Category</label>
         <select class="form-item" th:field="*{parentCategoryId}" id="parentCategoryId" name="parentCategoryId">

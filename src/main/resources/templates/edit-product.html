@@ -8,11 +8,15 @@
 </head>
 <body>
 
+<div th:replace="header :: panel"></div>
+
 <div class="container">
 
     <form method="POST" action="#" th:action="@{/edit-product}" th:object="${productToEdit}">
 
-        <h2>Add new product</h2>
+        <h2>Edit product</h2>
+
+        <input type="hidden" th:field="*{id}">
 
         <label for="name">Name</label>
         <input class="form-item" type="text" name="name" id="name" th:field="*{name}" th:value="${productToEdit.name}">
@@ -31,16 +35,6 @@
             </option>
         </select>
 
-        <!--<div class="dropdown form-item">-->
-            <!--<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                <!--Choose main category-->
-            <!--</a>-->
-
-            <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
-                <!--<a class="dropdown-item" th:each="category : ${categories}" th:href="@{/add-product(parentCategory=${category.id})}" th:method="post" th:text="${category.name}" th:value="${category.id}">Category</a>-->
-            <!--</div>-->
-        <!--</div>-->
-
         <label th:for="category">Category</label>
         <select class="form-item" th:field="*{category}" id="category" name="category">
             <option th:each="subcategory : ${subcategories}"
@@ -50,16 +44,6 @@
                     th:text="${subcategory.name}">
             </option>
         </select>
-
-        <!--<div class="dropdown">-->
-        <!--<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-        <!--Dropdown link-->
-        <!--</a>-->
-
-        <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuLink" th:field="*{category}" th:each="subcategory : ${subcategories}">-->
-        <!--<a class="dropdown-item" th:text="${subcategory.name}" th:value="${subcategory.id}">Wybór</a>-->
-        <!--</div>-->
-        <!--</div>-->
 
         <label th:for="description">Description</label>
         <textarea class="form-item" id="description" name="description" th:field="*{description}"></textarea>

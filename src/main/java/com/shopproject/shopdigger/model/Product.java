@@ -3,7 +3,6 @@ package com.shopproject.shopdigger.model;
 import com.shopproject.shopdigger.model.enums.Unit;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
@@ -23,11 +22,12 @@ public class Product {
     @Lob
     private String description;
     private Long eanCode;
+    private boolean highlighted;
 
     public Product() {
     }
 
-    public Product(String name, BigDecimal price, Category category, Unit unit, double unitAmount, String description, Long eanCode) {
+    public Product(String name, BigDecimal price, Category category, Unit unit, double unitAmount, String description, Long eanCode, boolean highlighted) {
         this.name = name;
         this.price = price;
         this.category = category;
@@ -35,6 +35,7 @@ public class Product {
         this.unitAmount = unitAmount;
         this.description = description;
         this.eanCode = eanCode;
+        this.highlighted = highlighted;
     }
 
     public Long getId() {
@@ -101,7 +102,13 @@ public class Product {
         this.eanCode = eanCode;
     }
 
+    public boolean isHighlighted() {
+        return highlighted;
+    }
 
+    public void setHighlighted(boolean highlighted) {
+        highlighted = highlighted;
+    }
 
     @Override
     public String toString() {

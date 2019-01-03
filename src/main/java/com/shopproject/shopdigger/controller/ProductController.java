@@ -63,7 +63,7 @@ public class ProductController {
     }
 
     @GetMapping("/admin-product-list")
-    public String listBooks(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+    public String listProducts(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
         final int currentPage = page.orElse(1);
         final int pageSize = size.orElse(5);
 
@@ -82,16 +82,18 @@ public class ProductController {
         return "admin-product-list";
     }
 
+    @PostMapping("/admin-product-list")
+    public String listBooks(@RequestParam("id") Long id){
+        Optional<Product> product = productService.getProductById(id);
+        if(productService.getProductById(id).isPresent()){
+            productService.deleteProduct(product.get());
+        }
+        return "redirect:/admin-product-list";
+    }
+
     @GetMapping("/admin-panel")
     public String showAdminPanel(){
         return "admin-panel";
-    }
-
-    @GetMapping("/delete-confirmation/{id}")
-    public String showDeleteConfirmationPage(Model model, @PathVariable Long id){
-        Product product = productService.getProductById(id).get();
-        model.addAttribute("productToDelete", modelMapper.map(product, ProductDto.class));
-        return "delete-confirmation";
     }
 
     @PostMapping("/delete")
@@ -110,4 +112,12 @@ public class ProductController {
         model.addAttribute("subcategories", categoryService.getAllCategoriesList());
         return "edit-product";
     }
+
+    @PostMapping("edit-product")
+    public String saveEditedProject(@ModelAttribute ProductDto productDto){
+        Product product = modelMapper.map(productDto, Product.class);
+        productService.saveProduct(product);
+        return "redirect:/admin-product-list";
+    }
+
 }
