@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">>
 <head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,8 +33,15 @@
 
         <div>
         <ul class="nav navbar-nav navbar-right">
-            <li><a th:href="@{/register}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <div class="button-group" sec:authorize="!isFullyAuthenticated()">
+                <li><a th:href="@{/register}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </div>
+            <div class="button-group" sec:authorize="isFullyAuthenticated()">
+                <span sec:authentication="principal.firstName"></span>
+                <a href="/logout">Logout</a>
+            </div>
+
         </ul>
         </div>
     </div>

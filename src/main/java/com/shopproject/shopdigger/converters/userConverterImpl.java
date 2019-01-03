@@ -25,7 +25,15 @@ public class userConverterImpl implements userConverter{
     }
 
     @Override
-    public UserDto convertDto(User customer) {
-        return null;
+    public UserDto convertDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setFirstName(user.getFirstName());
+        userDto.setSecondName(user.getSecondName());
+        userDto.setLogin(user.getLogin());
+        userDto.setPhoneNumber(user.getPhoneNumber());
+        userDto.setPassword(user.getPassword());
+        userDto.setMail(user.getMail());
+        userDto.setUserStatus(user.getUserStatus());
+        return userDto;
     }
 }

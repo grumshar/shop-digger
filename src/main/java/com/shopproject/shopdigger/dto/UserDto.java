@@ -1,11 +1,15 @@
 package com.shopproject.shopdigger.dto;
 
 import com.shopproject.shopdigger.model.Address;
+import com.shopproject.shopdigger.model.enums.UserStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 
-public class UserDto {
+public class UserDto implements UserDetails {
 
     private String firstName;
 
@@ -22,6 +26,17 @@ public class UserDto {
     private String login;
 
     private Address address;
+
+    private UserStatus userStatus;
+
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
+    }
+
 
     public UserDto(){}
 
@@ -67,8 +82,38 @@ public class UserDto {
         this.mail = mail;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     public void setPassword(String password) {

@@ -1,6 +1,9 @@
 package com.shopproject.shopdigger.validators;
 
+import com.shopproject.shopdigger.dao.UserRepository;
 import com.shopproject.shopdigger.dto.UserDto;
+import com.shopproject.shopdigger.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -12,6 +15,9 @@ import java.util.regex.Pattern;
 
 @Component
 public class UserValidator implements Validator {
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     private static final String EMAIL_PATTERN =
@@ -33,14 +39,18 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
 
         UserDto userDto = (UserDto) o;
+        User user = userRepository.findFirstByLogin(userDto.getLogin());
         if (StringUtils.isEmpty(userDto.getFirstName())) {
             errors.rejectValue("firstName", "NotNull.customerModel.firstName");
         }
 
         Pattern loginPattern = Pattern.compile(LOGIN_PATTERN,
                 Pattern.CASE_INSENSITIVE);
-        if (!(loginPattern.matcher(userDto.getLogin()).matches())) {
-            errors.rejectValue("login", "customerModel.login.pattern");
+//        if (!(loginPattern.matcher(userDto.getLogin()).matches())) {
+//            errors.rejectValue("login", "customerModel.login.pattern");
+//        }
+        if (user != null) {
+            errors.rejectValue("login", "customerModel.login.exist");
         }
         if (!userDto.getPassword().equals(userDto.getMatchingPassword())) {
             errors.rejectValue("password", "customerModel.password.pattern");
