@@ -1,8 +1,10 @@
 package com.shopproject.shopdigger.controller;
 
+import com.shopproject.shopdigger.converters.ProductConverter;
+import com.shopproject.shopdigger.dto.ProductDto;
 import com.shopproject.shopdigger.model.Category;
-import com.shopproject.shopdigger.model.Product;
 import com.shopproject.shopdigger.service.PaginationService;
+import com.shopproject.shopdigger.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,26 +23,64 @@ import java.util.stream.IntStream;
 public class PaginationController {
 
     private PaginationService paginationService;
+    private ProductService productService;
+    private ProductConverter productConverter;
 
     @Autowired
-    public PaginationController(PaginationService paginationService) {
+    public PaginationController(PaginationService paginationService, ProductService productService, ProductConverter productConverter) {
         this.paginationService = paginationService;
+        this.productService = productService;
+        this.productConverter = productConverter;
     }
 
     @GetMapping("/add-highlighted")
-    public String listProductsContainingGet(){
+    public String listProductsContainingGet(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam(required = false) String name){
+        if(name != null){
+            final int currentPage = page.orElse(1);
+            final int pageSize = 10;
+
+            Page<ProductDto> productPage = paginationService.getProductsByNameContainingIgnoreCase(PageRequest.of(currentPage - 1, pageSize), name);
+            model.addAttribute("productPage", productPage);
+            model.addAttribute("name", name);
+            page.ifPresent(pageNo -> model.addAttribute("page", pageNo));
+
+            int totalPages = productPage.getTotalPages();
+            if (totalPages > 0) {
+                List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                        .boxed()
+                        .collect(Collectors.toList());
+                model.addAttribute("pageNumbers", pageNumbers);
+            }
+        }
+
+        model.addAttribute("highlightedProducts", productService.getHighlightedProducts());
+
         return "add-highlighted";
     }
 
     @PostMapping("/add-highlighted")
-    public String listProductsContainingPost(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, @RequestParam(required = false) String name) {
+    public String listProductsContainingPost(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam(required = false) String name, @RequestParam(required = false) Long id, @RequestParam(required = false) boolean decision) {
         final int currentPage = page.orElse(1);
-        final int pageSize = size.orElse(5);
+        final int pageSize = 10;
 
-        Page<Product> productPage = paginationService.getProductsByNameContainingIgnoreCase(PageRequest.of(currentPage - 1, pageSize), name);
-
+        Page<ProductDto> productPage = paginationService.getProductsByNameContainingIgnoreCase(PageRequest.of(currentPage - 1, pageSize), name);
         model.addAttribute("productPage", productPage);
         model.addAttribute("name", name);
+        page.ifPresent(pageNo -> model.addAttribute("page", pageNo));
+
+        if(null != id){
+            productService.setHighlighted(id, decision);
+            model.addAttribute("id", id);
+            model.addAttribute("modifiedProduct",
+                    productConverter.convertDto(productService.getProductById(id).get()));
+            String modified = null;
+            if(decision){
+                modified = "added to";
+            } else{
+                modified = "removed from";
+            }
+            model.addAttribute("modifyVersion", modified);
+        }
 
         int totalPages = productPage.getTotalPages();
         if (totalPages > 0) {
@@ -49,6 +89,7 @@ public class PaginationController {
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
+        model.addAttribute("highlightedProducts", productService.getHighlightedProducts());
 
         return "add-highlighted";
     }

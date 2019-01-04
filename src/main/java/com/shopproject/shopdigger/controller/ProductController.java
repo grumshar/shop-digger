@@ -125,9 +125,4 @@ public class ProductController {
         return "home";
     }
 
-    @GetMapping("/error")
-    public String error(){
-        return "error";
-    }
-
 }

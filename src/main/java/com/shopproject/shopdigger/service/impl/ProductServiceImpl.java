@@ -1,6 +1,9 @@
 package com.shopproject.shopdigger.service.impl;
 
+import com.shopproject.shopdigger.converters.ProductConverter;
+import com.shopproject.shopdigger.converters.UserConverter;
 import com.shopproject.shopdigger.dao.ProductRepository;
+import com.shopproject.shopdigger.dto.ProductDto;
 import com.shopproject.shopdigger.model.Product;
 import com.shopproject.shopdigger.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,19 +13,19 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import javax.swing.text.html.Option;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
+    private ProductConverter productConverter;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductConverter productConverter) {
         this.productRepository = productRepository;
+        this.productConverter = productConverter;
     }
 
     public List<Product> getAllProducts(){
@@ -67,5 +70,41 @@ public class ProductServiceImpl implements ProductService {
     public boolean deleteProduct(Product product) {
         productRepository.delete(product);
         return true;
+    }
+
+    @Override
+    public List<ProductDto> getHighlightedProducts() {
+        List<Product> products = productRepository.findProductsByHighlightedTrue();
+        List<ProductDto> productDtos = new ArrayList<>();
+        products.forEach(product -> productDtos.add(productConverter.convertDto(product)));
+        return productDtos;
+    }
+
+    @Override
+    public boolean setHighlighted(Long id, boolean choice) {
+        Optional<Product> product = getProductById(id);
+        System.out.println(id);
+        if(product.isPresent()){
+            Product finalProduct = product.get();
+            finalProduct.setHighlighted(choice);
+            System.out.println(finalProduct.isHighlighted());
+            saveProduct(finalProduct);
+            System.out.println("Zapisano " + id);
+        }
+        return true;
+    }
+
+    @Override
+    public List<ProductDto> generateIndexProducts() {
+        List<ProductDto> list = getHighlightedProducts();
+        List<ProductDto> finalList = new ArrayList<>();
+        Random random = new Random(list.size());
+        while(finalList.size() <= 10) {
+            int index = random.nextInt();
+            if (!finalList.contains(list.get(index))) {
+                finalList.add(list.get(index));
+            }
+        }
+        return finalList;
     }
 }

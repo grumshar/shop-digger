@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class userConverterImpl implements userConverter{
+public class UserConverterImpl implements UserConverter {
 
 
     @Override

@@ -107,7 +107,7 @@ public class Product {
     }
 
     public void setHighlighted(boolean highlighted) {
-        highlighted = highlighted;
+        this.highlighted = highlighted;
     }
 
     @Override

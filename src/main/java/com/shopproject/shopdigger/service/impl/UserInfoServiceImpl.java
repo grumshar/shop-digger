@@ -1,13 +1,12 @@
 package com.shopproject.shopdigger.service.impl;
 
-import com.shopproject.shopdigger.converters.userConverter;
+import com.shopproject.shopdigger.converters.UserConverter;
 import com.shopproject.shopdigger.dao.UserRepository;
 import com.shopproject.shopdigger.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -16,7 +15,7 @@ import java.util.Objects;
 public class UserInfoServiceImpl implements UserDetailsService {
 
     @Autowired
-    private com.shopproject.shopdigger.converters.userConverter userConverter;
+    private UserConverter userConverter;
 
     @Autowired
     private UserRepository userRepository;
