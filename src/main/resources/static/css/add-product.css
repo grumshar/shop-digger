@@ -4,7 +4,7 @@
     border-radius: 10px;
     padding: 20px;
     margin: 20px auto;
-    margin-top: 65px;
+    margin-top: 30px;
 }
 
 .form-item {
@@ -33,7 +33,7 @@ label {
     border-right: 2px solid #37373F;
     border-bottom: 2px solid #37373F;
     box-shadow: 2px 3px 10px 1px rgba(0,0,0,0.75);
-    position: fixed;
+    position: sticky;
     top: 0px;
     width: 100%;
     background-color: #FFFFFF;
@@ -68,4 +68,12 @@ label {
 
 .modal-own-text {
     font-weight: lighter;
+}
+
+.header-nav{
+    z-index: 1071;
+}
+
+.alert {
+    z-index: -1;
 }

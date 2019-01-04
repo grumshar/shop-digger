@@ -5,15 +5,14 @@ import com.shopproject.shopdigger.model.CartItem;
 import com.shopproject.shopdigger.model.Product;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-
 @Component
-public class ProductConverterImpl implements productConverter {
+public class ProductConverterImpl implements ProductConverter {
 
 
     @Override
     public Product convert(ProductDto productDto) {
         Product product = new Product();
+        product.setId(productDto.getId());
         product.setName(productDto.getName());
         product.setPrice(productDto.getPrice());
         product.setCategory(productDto.getCategory());
@@ -27,6 +26,7 @@ public class ProductConverterImpl implements productConverter {
     @Override
     public ProductDto convertDto(Product product) {
         ProductDto productDto = new ProductDto();
+        productDto.setId(product.getId());
         productDto.setName(product.getName());
         productDto.setPrice(product.getPrice());
         productDto.setCategory(product.getCategory());
@@ -42,10 +42,6 @@ public class ProductConverterImpl implements productConverter {
 
         CartItem cartItem = new CartItem();
         cartItem.setId(productDto.getId());
-        cartItem.setName(productDto.getName());
-        cartItem.setPrice(productDto.getPrice());
-        cartItem.setUnit(productDto.getUnit());
-        cartItem.setUnitAmount(productDto.getUnitAmount());
 
         return cartItem ;
     }

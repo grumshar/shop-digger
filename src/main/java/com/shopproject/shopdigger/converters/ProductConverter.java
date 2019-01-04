@@ -4,7 +4,7 @@ import com.shopproject.shopdigger.dto.ProductDto;
 import com.shopproject.shopdigger.model.CartItem;
 import com.shopproject.shopdigger.model.Product;
 
-public interface productConverter {
+public interface ProductConverter {
 
     public Product convert(ProductDto productDto);
 
