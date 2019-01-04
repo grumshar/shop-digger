@@ -113,11 +113,21 @@ public class ProductController {
         return "edit-product";
     }
 
-    @PostMapping("edit-product")
-    public String saveEditedProject(@ModelAttribute ProductDto productDto){
+    @PostMapping("/edit-product")
+    public String saveEditedProduct(@ModelAttribute ProductDto productDto){
         Product product = modelMapper.map(productDto, Product.class);
         productService.saveProduct(product);
         return "redirect:/admin-product-list";
+    }
+
+    @GetMapping("/test-page")
+    public String test(){
+        return "home";
+    }
+
+    @GetMapping("/error")
+    public String error(){
+        return "error";
     }
 
 }
