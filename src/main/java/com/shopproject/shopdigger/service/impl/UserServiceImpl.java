@@ -69,4 +69,14 @@ public class UserServiceImpl implements UserService {
                 login, password, UserStatus.ACTIVATED)!=null? true: false;
     }
 
+    @Override
+    public void saveUser(User user){
+        userRepository.save(user);
+    }
+
+    @Override
+    public User findById(Long id) {
+        return userRepository.findUserById(id);
+    }
+
 }

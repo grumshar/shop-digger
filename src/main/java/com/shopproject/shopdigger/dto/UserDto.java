@@ -11,6 +11,8 @@ import java.util.Collection;
 
 public class UserDto implements UserDetails {
 
+    private Long id;
+
     private String firstName;
 
     private String secondName;
@@ -82,6 +84,14 @@ public class UserDto implements UserDetails {
         this.mail = mail;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -142,5 +152,21 @@ public class UserDto implements UserDetails {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", mail='" + mail + '\'' +
+                ", password='" + password + '\'' +
+                ", matchingPassword='" + matchingPassword + '\'' +
+                ", login='" + login + '\'' +
+                ", address=" + address +
+                ", userStatus=" + userStatus +
+                '}';
     }
 }

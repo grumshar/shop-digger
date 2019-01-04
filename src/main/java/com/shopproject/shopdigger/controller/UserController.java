@@ -1,6 +1,9 @@
 package com.shopproject.shopdigger.controller;
 
+import com.shopproject.shopdigger.converters.UserConverterImpl;
 import com.shopproject.shopdigger.dto.UserDto;
+import com.shopproject.shopdigger.model.Address;
+import com.shopproject.shopdigger.model.User;
 import com.shopproject.shopdigger.security.provider.DatabaseAuthenticationProvider;
 import com.shopproject.shopdigger.service.UserService;
 import com.shopproject.shopdigger.validators.UserValidator;
@@ -29,6 +32,9 @@ public class UserController {
 
     @Autowired
     private MessageSource messageSource;
+
+    @Autowired
+    private UserConverterImpl userConverter;
 
     @Autowired
     private DatabaseAuthenticationProvider databaseAuthenticationProvider;
@@ -82,9 +88,62 @@ public class UserController {
         return "login";
     }
 
+    @GetMapping("/logout")
+    public String customerLogout() {
+        return "redirect:/succesfull-login";
+    }
+
+    @GetMapping("/logout-done")
+    public String customerLogoutDone() {
+        return "redirect:/index";
+    }
+
+
     @GetMapping("/shouldBeLogged")
     public String customerLogin(Model model, Authentication authentication) {
         model.addAttribute("message", "User "+authentication.getName()+" is logged");
-        return "succesfull-login";
+        return "redirect:/index";
+    }
+
+    @GetMapping("/user-profile")
+    public String userProfile(Model model,Authentication authentication) {
+
+        UserDto userDto = (UserDto) authentication.getPrincipal();
+
+         model.addAttribute("profile",userDto);
+
+
+        return "user-profile";
+    }
+
+    @PostMapping("/save-profile")
+    public String userProfileChange(@RequestParam Long id,@ModelAttribute UserDto userDto,Model model) {
+
+        User user = userService.findById(id);
+        user.setFirstName(userDto.getFirstName());
+        user.setSecondName(userDto.getSecondName());
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        model.addAttribute("profile",userDto);
+        System.out.println(userDto);
+
+        userService.saveUser(user);
+
+
+        return "user-profile";
+    }
+
+    @GetMapping("/user-address")
+    public String userAddress(Model model,Authentication authentication) {
+
+        UserDto userDto = (UserDto) authentication.getPrincipal();
+        Address address = userDto.getAddress();
+        if(address == null){
+            address = new Address();
+        }
+
+        model.addAttribute("address",address);
+
+
+        return "user-address";
     }
 }

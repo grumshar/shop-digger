@@ -1,9 +1,16 @@
 package com.shopproject.shopdigger.model;
 
+import com.shopproject.shopdigger.model.enums.Unit;
+
+import java.math.BigDecimal;
+
 public class CartItem {
 
     private Long id;
-    private int productAmount;
+    private String name;
+    private Unit unit;
+    private double unitAmount;
+    private BigDecimal price;
 
     public Long getId() {
         return id;
@@ -13,19 +20,35 @@ public class CartItem {
         this.id = id;
     }
 
-    public int getProductAmount() {
-        return productAmount;
+    public String getName() {
+        return name;
     }
 
-    public void setProductAmount(int productAmount) {
-        this.productAmount = productAmount;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "CartItem{" +
-                "id=" + id +
-                ", productAmount=" + productAmount +
-                '}';
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public double getUnitAmount() {
+        return unitAmount;
+    }
+
+    public void setUnitAmount(double unitAmount) {
+        this.unitAmount = unitAmount;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

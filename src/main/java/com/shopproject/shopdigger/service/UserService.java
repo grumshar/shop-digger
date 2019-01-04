@@ -10,5 +10,9 @@ public interface UserService {
     public boolean activateUser(String login, String token);
 
     public boolean authenticate(String login, String password);
+
+    public void saveUser(User user);
+
+    public User findById(Long id);
 }
 

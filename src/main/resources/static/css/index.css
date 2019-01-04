@@ -42,6 +42,11 @@
     margin-right: 15px !important;
 }
 
+.account-div{
+    margin: 0;
+    padding: 0;
+}
+
 .dropdown-menu {
     padding: 0px;
     overflow: hidden;

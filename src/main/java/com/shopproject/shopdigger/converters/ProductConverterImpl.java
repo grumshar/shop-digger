@@ -3,10 +3,12 @@ package com.shopproject.shopdigger.converters;
 import com.shopproject.shopdigger.dto.ProductDto;
 import com.shopproject.shopdigger.model.CartItem;
 import com.shopproject.shopdigger.model.Product;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-public class productConverterImpl implements productConverter {
+@Component
+public class ProductConverterImpl implements productConverter {
 
 
     @Override
@@ -40,6 +42,10 @@ public class productConverterImpl implements productConverter {
 
         CartItem cartItem = new CartItem();
         cartItem.setId(productDto.getId());
+        cartItem.setName(productDto.getName());
+        cartItem.setPrice(productDto.getPrice());
+        cartItem.setUnit(productDto.getUnit());
+        cartItem.setUnitAmount(productDto.getUnitAmount());
 
         return cartItem ;
     }
