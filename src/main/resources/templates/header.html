@@ -33,6 +33,11 @@
 
             <div>
                 <ul class="nav navbar-nav navbar-right">
+
+                    <li><a th:href="@{/cart}"><span class="glyphicon glyphicon-shopping-cart"></span>
+                        <span th:text="' ' + ${cartValue} + ' PLN'"></span></a></li>
+
+
                     <li sec:authorize="isFullyAuthenticated()">
                         <div class="navbar-collapse collapse">
                             <ul class="nav navbar-nav navbar-right">
