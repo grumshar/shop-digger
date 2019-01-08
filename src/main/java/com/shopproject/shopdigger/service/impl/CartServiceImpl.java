@@ -5,20 +5,23 @@ import com.shopproject.shopdigger.dto.ProductDto;
 import com.shopproject.shopdigger.model.Cart;
 import com.shopproject.shopdigger.model.CartItem;
 import com.shopproject.shopdigger.service.CartService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
+@Service
 public class CartServiceImpl implements CartService {
-
 
    private Cart cart;
    private ProductConverterImpl productConverter;
 
-    public CartServiceImpl(Cart cart, ProductConverterImpl productConverter) {
+   @Autowired
+   public CartServiceImpl(Cart cart, ProductConverterImpl productConverter) {
         this.cart = cart;
         this.productConverter = productConverter;
-    }
+   }
 
     @Override
     public void addCartProduct(ProductDto productDto, Double amount) {
@@ -31,16 +34,20 @@ public class CartServiceImpl implements CartService {
             cart.getUserCart().put(productConverter.convertCartItem(productDto),amount);
         }
 
+        totalPrice();
+
     }
 
     @Override
     public void delateCartProduct(Long id) {
 
         cart.getUserCart().entrySet().removeIf(cartitem -> cartitem.getKey().getId().equals(id));
+        totalPrice();
+
     }
 
     @Override
-    public void totalPrise(Cart cart) {
+    public void totalPrice() {
         BigDecimal temp = new BigDecimal(0);
         BigDecimal finlaresult = new BigDecimal(0);
 
@@ -50,12 +57,11 @@ public class CartServiceImpl implements CartService {
             temp = finlaresult;
 
             cart.setTotal(finlaresult);
-
         }
-
-
-
     }
 
-
+    @Override
+    public Cart getCart() {
+        return cart;
+    }
 }

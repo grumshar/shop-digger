@@ -42,6 +42,10 @@ public class ProductConverterImpl implements ProductConverter {
 
         CartItem cartItem = new CartItem();
         cartItem.setId(productDto.getId());
+        cartItem.setName(productDto.getName());
+        cartItem.setUnit(productDto.getUnit());
+        cartItem.setUnitAmount(productDto.getUnitAmount());
+        cartItem.setPrice(productDto.getPrice());
 
         return cartItem ;
     }

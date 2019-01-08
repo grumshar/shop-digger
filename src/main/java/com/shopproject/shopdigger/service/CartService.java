@@ -7,5 +7,6 @@ public interface CartService {
 
     public void addCartProduct(ProductDto productDto,Double amount);
     public void delateCartProduct(Long id);
-    public void totalPrise(Cart cart);
+    public void totalPrice();
+    Cart getCart();
 }

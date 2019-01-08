@@ -87,9 +87,7 @@ public class ProductServiceImpl implements ProductService {
         if(product.isPresent()){
             Product finalProduct = product.get();
             finalProduct.setHighlighted(choice);
-            System.out.println(finalProduct.isHighlighted());
             saveProduct(finalProduct);
-            System.out.println("Zapisano " + id);
         }
         return true;
     }
@@ -98,9 +96,12 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDto> generateIndexProducts() {
         List<ProductDto> list = getHighlightedProducts();
         List<ProductDto> finalList = new ArrayList<>();
-        Random random = new Random(list.size());
-        while(finalList.size() <= 10) {
-            int index = random.nextInt();
+        if(list.size() <= 12){
+            return list;
+        }
+        Random random = new Random();
+        while(finalList.size() < 12) {
+            int index = random.nextInt(list.size());
             if (!finalList.contains(list.get(index))) {
                 finalList.add(list.get(index));
             }

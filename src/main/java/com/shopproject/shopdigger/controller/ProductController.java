@@ -1,8 +1,11 @@
 package com.shopproject.shopdigger.controller;
 
+import com.shopproject.shopdigger.converters.ProductConverter;
 import com.shopproject.shopdigger.dto.ProductDto;
+import com.shopproject.shopdigger.model.Cart;
 import com.shopproject.shopdigger.model.Product;
 import com.shopproject.shopdigger.model.enums.Unit;
+import com.shopproject.shopdigger.service.CartService;
 import com.shopproject.shopdigger.service.CategoryService;
 import com.shopproject.shopdigger.service.ProductService;
 import org.modelmapper.ModelMapper;
@@ -13,8 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,25 +27,38 @@ public class ProductController {
     private ProductService productService;
     private CategoryService categoryService;
     private ModelMapper modelMapper = new ModelMapper();
+    private CartService cartService;
+    private ProductConverter productConverter;
 
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService) {
+    public ProductController(ProductService productService, CategoryService categoryService, CartService cartService,
+                             ProductConverter productConverter, Cart cart) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.cartService = cartService;
+        this.productConverter = productConverter;
     }
 
     @GetMapping("/product-page/{id}")
-    public String showProductPage(Model model, @PathVariable Long id){
-        Product p1 = new Product();
-        p1.setName("Jabłko");
-        p1.setPrice(new BigDecimal(10.59).setScale(2, RoundingMode.HALF_UP));
-        productService.saveProduct(p1);
+    public String showProductPage(Model model, @PathVariable long id){
+//        Product p1 = new Product();
+//        p1.setName("Jabłko");
+//        p1.setPrice(new BigDecimal(10.59).setScale(2, RoundingMode.HALF_UP));
+//        productService.saveProduct(p1);
         Optional<Product> productToDisplay = productService.getProductById(id);
         productToDisplay.ifPresent(product ->
                 model.addAttribute("productToDisplay", modelMapper.map(product, ProductDto.class)));
-        productToDisplay.ifPresent(product ->
-                model.addAttribute("classToDisplay", modelMapper.map(product, ProductDto.class).getClass()));
+//        model.addAttribute("cartValue", cartService.getCart().getTotal());
         return "product-page";
+    }
+
+    @PostMapping("/product-page/{id}")
+    public String addFromProductPageToCart(@RequestParam Long id, @RequestParam Double productAmount, Model model){
+
+        cartService.addCartProduct(productConverter.convertDto(productService.getProductById(id).get()), productAmount);
+
+        return "redirect:/product-page/" + id;
+
     }
 
     @GetMapping("/add-product")
@@ -72,10 +86,26 @@ public class ProductController {
         model.addAttribute("productPage", productPage);
 
         int totalPages = productPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
+        List<Integer> pageNumbers;
+        if (totalPages > 0 && page.isPresent()) {
+            if(totalPages <= 5){
+                pageNumbers = IntStream.rangeClosed(1, totalPages)
+                        .boxed()
+                        .collect(Collectors.toList());
+            }
+            else if(page.get() <= 2){
+                pageNumbers = IntStream.rangeClosed(1, 5)
+                        .boxed()
+                        .collect(Collectors.toList());
+            } else if((totalPages - page.get()) <= 2){
+                pageNumbers = IntStream.rangeClosed(page.get() - 5, totalPages)
+                        .boxed()
+                        .collect(Collectors.toList());
+            } else {
+                pageNumbers = IntStream.rangeClosed(page.get() - 2, page.get() + 2)
+                        .boxed()
+                        .collect(Collectors.toList());
+            }
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
@@ -121,8 +151,16 @@ public class ProductController {
     }
 
     @GetMapping("/test-page")
-    public String test(){
+    public String test(Model model){
+        model.addAttribute("products", productService.generateIndexProducts());
+//        model.addAttribute("cartValue", cartService.getCart().getTotal());
         return "home";
+    }
+
+    @GetMapping("/header")
+    public String showHeader(Model model){
+        model.addAttribute("cartValue", cartService.getCart().getTotal());
+        return "header";
     }
 
 }

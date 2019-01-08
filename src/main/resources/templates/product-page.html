@@ -1,44 +1,65 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>ShopDigger</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/productpage.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/index-product.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/index.css}">
+    <meta charset="UTF-8">
+    <title>Home Page</title>
 </head>
 <body>
 
-<div th:include="header :: header"></div>
+<div th:replace="header :: header"></div>
+<div th:replace="header :: category"></div>
 
-<div>
-    <div class="picture">
+<div class="page-content clearfix row">
 
+    <div class="left-side col-12 col-sm-12 col col-md-3 col-lg-3">
+        <img src="https://www.imcusa.org/global_graphics/default-store-350x350.jpg">
     </div>
 
-    <div class="main-content">
-        <p th:text="${productToDisplay.name}">Product name</p>
-        <p th:text="${productToDisplay.price}">Product price</p>
-        <p th:text="${productToDisplay.category.name}">Product category</p>
-        <p th:text="${productToDisplay.unit}">Product unit</p>
-        <p th:text="${productToDisplay.unitAmount}">Product unit amount</p>
-        <p th:text="${productToDisplay.description}">Product description</p>
-        <p th:text="${classToDisplay}">Product category</p>
+    <div class="center col-12 col-sm-12 col-md-7 col-lg-7">
+        <div class="center-text">
+            <p class="name" th:text="${productToDisplay.name}">Product Name</p>
+            <p class="unit" th:text="${productToDisplay.unitAmount} + ' ' + ${productToDisplay.unit}">Unit and Amount</p>
+            <p class="description">Product Description</p>
+            <p th:text="${productToDisplay.description}">Product Description</p>
+        </div>
     </div>
 
-    <div class="sidebar">
+    <div class="right-side col-12 col-sm-12 col-md-2 col col-lg-2">
+        <p class="price" th:text="${productToDisplay.price + ' PLN'}">29.99 PLN</p>
+        <p th:text="'for ' + ${productToDisplay.unitAmount} + ' ' + ${productToDisplay.unit}">za 600 g</p>
+
+        <div class="unit-convert">
+        <p th:if="${productToDisplay.unit == T(com.shopproject.shopdigger.model.enums.Unit).PCS}"
+           th:with="converted = 1 / ${productToDisplay.unitAmount}"
+           th:text="${#numbers.formatDecimal(productToDisplay.price * converted,1,2,'POINT')} + ' PLN for 1 PIECE'"></p>
+        <p th:if="${productToDisplay.unit == T(com.shopproject.shopdigger.model.enums.Unit).G}"
+           th:with="converted = 1000 / ${productToDisplay.unitAmount}"
+           th:text="${#numbers.formatDecimal(productToDisplay.price * converted,1,2,'POINT')} + ' PLN for 1 KG'"></p>
+        <p th:if="${productToDisplay.unit == T(com.shopproject.shopdigger.model.enums.Unit).L}"
+           th:with="converted = 1000 / ${productToDisplay.unitAmount}"
+           th:text="${#numbers.formatDecimal(productToDisplay.price * converted,1,2,'POINT')} + ' PLN for 1 L'"></p>
+        </div>
+
+        <p class="ean" th:text="'EAN: ' + ${productToDisplay.eanCode}">EAN: 0123456789012</p>
+
+        <div class="cart-adding2">
+            <form th:action="@{'/product-page/' + ${productToDisplay.id}}" method="POST">
+                <input type="hidden" name="id" th:value="${productToDisplay.id}">
+                <input type="number" value="1" name="productAmount" id="productAmount" min="1" max="99">
+                <input type="submit" value="To Cart">
+            </form>
+        </div>
 
     </div>
 
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </body>
 </html>

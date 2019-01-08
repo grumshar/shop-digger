@@ -12,6 +12,17 @@ public class CartItem {
     private double unitAmount;
     private BigDecimal price;
 
+    public CartItem() {
+    }
+
+    public CartItem(Long id, String name, Unit unit, double unitAmount, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.unit = unit;
+        this.unitAmount = unitAmount;
+        this.price = price;
+    }
+
     public Long getId() {
         return id;
     }
@@ -51,4 +62,6 @@ public class CartItem {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+
 }

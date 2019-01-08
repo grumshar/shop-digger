@@ -5,8 +5,8 @@ import com.shopproject.shopdigger.model.enums.Unit;
 import org.springframework.stereotype.Controller;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
-@Controller
 public class ProductDto {
 
     private Long id;
@@ -80,6 +80,19 @@ public class ProductDto {
 
     public void setEanCode(Long eanCode) {
         this.eanCode = eanCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductDto that = (ProductDto) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

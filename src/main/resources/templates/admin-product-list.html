@@ -15,14 +15,18 @@
 
 <div class="container">
 
-<h1>ProductList</h1>
+<h1>Product List</h1>
 
-<table border="1">
-    <thead>
+<table class="table">
+    <thead class="thead-light">
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Price</th>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Category</th>
+        <th scope="col">Price</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+
     </tr>
     </thead>
     <tbody>
@@ -30,6 +34,7 @@
         th:with="name=${product.name}">
         <td th:text="${product.id}">ID</td>
         <td th:text="${product.name}">Name</td>
+        <td th:text="${product.category}">Category</td>
         <td th:text="${product.price}">Price</td>
         <td><a th:href="@{'/edit-product/' + ${product.id}}">Edit</a></td>
 
@@ -68,12 +73,17 @@
     </tr>
     </tbody>
 </table>
-<div th:if="${productPage.totalPages > 0}" class="pagination"
-     th:each="pageNumber : ${pageNumbers}">
-    <a th:href="@{/admin-product-list(size=${productPage.size}, page=${pageNumber})}"
-       th:text="${pageNumber}"
-       th:class="${pageNumber==productPage.number + 1} ? active"></a>
-</div>
+
+<nav aria-label="Page navigation">
+<ul th:if="${productPage.totalPages > 0}" class="pagination">
+     <li class="page-item"><a href="#">Previous</a></li>
+     <li class="page-item" th:each="pageNumber : ${pageNumbers}"><a class="page-link" th:href="@{/admin-product-list(size=${productPage.size}, page=${pageNumber})}"
+       th:text="${pageNumber}"></a></li>
+    <li class="page-item"><a href="#">Next</a></li>
+
+</ul>
+</nav>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

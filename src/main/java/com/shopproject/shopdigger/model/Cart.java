@@ -1,5 +1,6 @@
 package com.shopproject.shopdigger.model;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -10,14 +11,13 @@ import java.util.HashMap;
 @SessionScope
 public class Cart {
 
-    private HashMap< CartItem, Double > userCat =
+    private HashMap< CartItem, Double > userCart =
             new HashMap< CartItem,Double >();
-
 
     private BigDecimal total;
 
     public HashMap<CartItem, Double> getUserCart() {
-        return userCat;
+        return userCart;
     }
 
     public BigDecimal getTotal() {
