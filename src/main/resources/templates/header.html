@@ -55,7 +55,7 @@
                                                             </p>
                                                         <div class="divider">
                                                         </div>
-                                                        <a href="#" class="btn btn-primary btn-sm active">View Profile</a>
+                                                        <a th:href="@{user-profile}" class="btn btn-primary btn-sm active">View Profile</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -83,8 +83,18 @@
             </div>
         </div>
     </nav>
+</div>
 
-    <nav class="clearfix site-nav navbar-second-pushed">
+<nav class="clearfix site-nav navbar-second-pushed" th:fragment="profile">
+    <ul>
+        <li><a th:href="@{user-profile}">User Profile</a></li>
+        <li><a th:href="@{user-address}">Address</a></li>
+        <li><a href="#">Orders</a></li>
+        <li><a href="#">Favorite</a></li>
+    </ul>
+</nav>
+
+    <nav class="clearfix site-nav navbar-second-pushed" th:fragment="category">
         <ul>
             <li><a href="#">Home</a></li>
             <li><a href="#">About</a></li>
@@ -97,7 +107,6 @@
         </ul>
     </nav>
 
-</div>
 
 <nav class="clearfix site-nav" th:fragment="panel">
     <ul>

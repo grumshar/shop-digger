@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class UserConverterImpl implements userConverter{
+public class UserConverterImpl implements UserConverter{
 
 
     @Override
     public User convert(UserDto userDto) {
         User user = new User();
+        user.setAddress(user.getAddress());
         user.setFirstName(userDto.getFirstName());
         user.setSecondName(userDto.getSecondName());
         user.setLogin(userDto.getLogin());
@@ -27,6 +28,7 @@ public class UserConverterImpl implements userConverter{
     @Override
     public UserDto convertDto(User user) {
         UserDto userDto = new UserDto();
+        userDto.setAddress(user.getAddress());
         userDto.setId(user.getId());
         userDto.setFirstName(user.getFirstName());
         userDto.setSecondName(user.getSecondName());

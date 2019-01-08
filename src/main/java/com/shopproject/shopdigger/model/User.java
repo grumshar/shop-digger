@@ -1,6 +1,7 @@
 package com.shopproject.shopdigger.model;
 
 import com.shopproject.shopdigger.model.enums.UserStatus;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,6 +22,7 @@ public class User {
     @Enumerated
     private UserStatus userStatus;
     @OneToOne
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
     @OneToMany(mappedBy = "user")

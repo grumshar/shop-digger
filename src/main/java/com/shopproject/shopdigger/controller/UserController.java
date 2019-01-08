@@ -5,6 +5,7 @@ import com.shopproject.shopdigger.dto.UserDto;
 import com.shopproject.shopdigger.model.Address;
 import com.shopproject.shopdigger.model.User;
 import com.shopproject.shopdigger.security.provider.DatabaseAuthenticationProvider;
+import com.shopproject.shopdigger.service.AddressService;
 import com.shopproject.shopdigger.service.UserService;
 import com.shopproject.shopdigger.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ import java.util.Map;
 
 @Controller
 public class UserController {
+
+    @Autowired
+    private AddressService addressService;
 
     @Autowired
     private UserValidator userValidator;
@@ -105,6 +109,7 @@ public class UserController {
         return "redirect:/index";
     }
 
+
     @GetMapping("/user-profile")
     public String userProfile(Model model,Authentication authentication) {
 
@@ -135,13 +140,24 @@ public class UserController {
     @GetMapping("/user-address")
     public String userAddress(Model model,Authentication authentication) {
 
+
+
         UserDto userDto = (UserDto) authentication.getPrincipal();
         Address address = userDto.getAddress();
-        if(address == null){
-            address = new Address();
-        }
 
-        model.addAttribute("address",address);
+        model.addAttribute("address",userDto.getAddress());
+
+
+        return "user-address";
+    }
+
+    @PostMapping("/save-address")
+    public String userAddressChange(@ModelAttribute Address address,Authentication authentication) {
+
+    UserDto userDto =(UserDto) authentication.getPrincipal();
+    addressService.saveAdress(address);
+    Address address1 = addressService.findById(address.getId());
+    userDto.setAddress(address1);
 
 
         return "user-address";
