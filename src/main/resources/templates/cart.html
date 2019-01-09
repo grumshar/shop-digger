@@ -6,11 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{../css/index.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/cart.css}"/>
 </head>
 <body>
 
+<div th:replace="header :: header"></div>
 
-<script src="../js/user-address.js"></script>
+<div class="cartTable">
+<table class="table">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cartItem : ${cartList}">
+        <th scope="row">1</th>
+        <div th:with="cartItemInfo = ${cartItem.key}">
+            <form th:action="@{/edit-cart}" method="POST">
+                <input name="id" type="hidden" th:value="${cartItemInfo.id}">
+            <td th:text="${cartItemInfo.name}"></td>
+            <td><input class="inputAmount" name="amount" id="amount" type="number" th:value="${cartItem.value}" disabled></td>
+            <td>
+
+                    <button class="editButton" id="edit" onclick="return handleEdit()">Edit</button>
+
+                    <input class="saveInput" type="submit" hidden id="save" value="Save">
+
+            </td>
+            </form>
+            <form th:action="@{/delete-cart}" method="POST">
+                <input name="id" type="hidden" th:value="${cartItemInfo.id}">
+            <td>
+                <input class="deleteInput" type="submit"  value="Delete">
+            </td>
+            </form>
+        </div>
+    </tr>
+    </tbody>
+</table>
+    <div>
+        <button
+                th:disabled="${cartList.isEmpty()} ? true : false"
+                th:class="${cartList.isEmpty()} ? 'disabled' : 'normal'"
+                type="submit" >Put Order</button>
+    </div>
+</div>
+
+
+
+
+<script src="../js/cart.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
 </body>
 </html>

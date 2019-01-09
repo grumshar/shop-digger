@@ -3,6 +3,7 @@ package com.shopproject.shopdigger.model;
 import com.shopproject.shopdigger.model.enums.Unit;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class CartItem {
 
@@ -63,5 +64,16 @@ public class CartItem {
         this.price = price;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CartItem)) return false;
+        CartItem cartItem = (CartItem) o;
+        return Objects.equals(id, cartItem.id);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

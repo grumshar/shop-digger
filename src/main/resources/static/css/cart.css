@@ -1,0 +1,50 @@
+
+.cartTable{
+    margin-top: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    border: 2px solid #37373F;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.inputAmount{
+    width: 30%;
+}
+
+.editButton{
+    margin-left: auto;
+    margin-right: auto;
+}
+.saveInput{
+    margin-left: auto;
+    margin-right: auto;
+}
+.deleteInput{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.disabled{
+  background-color: dimgray;
+    border-radius: 15px;
+    color: #FFFFFF;
+    font-weight: bold;
+    width: 120px;
+    height: 40px;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.normal{
+    background-color: chartreuse ;
+    color: #FFFFFF;
+    font-weight: bold;
+    border-radius: 15px;
+    width: 120px;
+    height: 40px;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
