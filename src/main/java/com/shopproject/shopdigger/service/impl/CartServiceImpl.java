@@ -56,8 +56,9 @@ public class CartServiceImpl implements CartService {
             finlaresult = temp.add(entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())));
             temp = finlaresult;
 
-            cart.setTotal(finlaresult);
+
         }
+        cart.setTotal(finlaresult);
     }
 
     @Override
@@ -65,4 +66,21 @@ public class CartServiceImpl implements CartService {
         return cart;
     }
 
+    @Override
+    public Map<CartItem,Double> getCartList(){
+       return getCart().getUserCart();
+    }
+
+    @Override
+    public void editCartItem(Long id,Double amount) {
+
+
+        for(Map.Entry<CartItem, Double> entry : cart.getUserCart().entrySet()){
+
+            if (entry.getKey().getId().equals(id)){
+                CartItem cartItem =  entry.getKey();
+                cart.getUserCart().put(cartItem, amount);
+                totalPrice();
+            } }
+   }
 }

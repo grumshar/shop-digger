@@ -1,21 +1,38 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/index.css}"/>
+    <title>User Profile</title>
+</head>
 <body>
-<h1 th:text="#{label.form.title}">form</h1>
-<form th:action="@{/login}"  method="POST" enctype="utf8">
-    <div>
-        <label th:text="#{label.user.firstName}">Login</label>
-        <input th:text="#{label.user.login}" th:name="login"/>
 
+<form class="form-horizontal" th:action="@{/login}" method="POST">
+    <div class="form-profile">
+
+        <div class="form-group">
+            <label for="login" class="col-sm-2 control-label" >Login</label>
+            <input class="form-control" id="login" th:name="login">
+
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label" >Password</label>
+            <input type="password" class="form-control" id="password" th:name="password">
+        </div>
+        <div class="form-group">
+            <div class="log">
+                <button class="logIn" type="submit" >Log IN</button>
+            </div>
+        </div>
     </div>
 
-    <div>
-        <label th:text="#{label.user.password}">Password</label>
-        <input th:text="#{label.user.login}" th:name="password"/>
 
-    </div>
-
-    <button type="submit" th:text="#{label.form.signIN}">submit</button>
 </form>
 
+
+<script src="../js/edit-user-profile.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
 </body>
 </html>
