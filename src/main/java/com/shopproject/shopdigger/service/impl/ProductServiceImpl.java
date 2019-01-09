@@ -28,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
         this.productConverter = productConverter;
     }
 
+    @Override
     public List<Product> getAllProducts(){
         List<Product> result = new ArrayList<>();
         Iterable<Product> iterable = productRepository.findAll();
@@ -108,4 +109,5 @@ public class ProductServiceImpl implements ProductService {
         }
         return finalList;
     }
+
 }

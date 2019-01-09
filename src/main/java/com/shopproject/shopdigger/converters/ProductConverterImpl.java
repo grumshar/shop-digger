@@ -20,6 +20,8 @@ public class ProductConverterImpl implements ProductConverter {
         product.setUnitAmount(productDto.getUnitAmount());
         product.setDescription(productDto.getDescription());
         product.setEanCode(productDto.getEanCode());
+        product.setHighlighted(productDto.isHighlighted());
+        product.setImgUrl(productDto.getImgUrl());
         return product;
     }
 
@@ -34,6 +36,8 @@ public class ProductConverterImpl implements ProductConverter {
         productDto.setUnitAmount(product.getUnitAmount());
         productDto.setDescription(product.getDescription());
         productDto.setEanCode(productDto.getEanCode());
+        productDto.setHighlighted(product.isHighlighted());
+        productDto.setImgUrl(product.getImgUrl());
         return productDto;
     }
 

@@ -40,6 +40,7 @@ public class PaginationController {
             final int pageSize = 10;
 
             Page<ProductDto> productPage = paginationService.getProductsByNameContainingIgnoreCase(PageRequest.of(currentPage - 1, pageSize), name);
+
             model.addAttribute("productPage", productPage);
             model.addAttribute("name", name);
             page.ifPresent(pageNo -> model.addAttribute("page", pageNo));
@@ -73,7 +74,7 @@ public class PaginationController {
             model.addAttribute("id", id);
             model.addAttribute("modifiedProduct",
                     productConverter.convertDto(productService.getProductById(id).get()));
-            String modified = null;
+            String modified;
             if(decision){
                 modified = "added to";
             } else{

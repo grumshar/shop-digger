@@ -39,41 +39,18 @@ public class ProductController {
         this.productConverter = productConverter;
     }
 
-    @GetMapping("/product-page/{id}")
-    public String showProductPage(Model model, @PathVariable long id){
-//        Product p1 = new Product();
-//        p1.setName("Jabłko");
-//        p1.setPrice(new BigDecimal(10.59).setScale(2, RoundingMode.HALF_UP));
-//        productService.saveProduct(p1);
-        Optional<Product> productToDisplay = productService.getProductById(id);
-        productToDisplay.ifPresent(product ->
-                model.addAttribute("productToDisplay", modelMapper.map(product, ProductDto.class)));
-//        model.addAttribute("cartValue", cartService.getCart().getTotal());
-        return "product-page";
-    }
-
-    @PostMapping("/product-page/{id}")
-    public String addFromProductPageToCart(@RequestParam Long id, @RequestParam Double productAmount, Model model){
-
-        cartService.addCartProduct(productConverter.convertDto(productService.getProductById(id).get()), productAmount);
-
-        return "redirect:/product-page/" + id;
-
-    }
-
     @GetMapping("/add-product")
-    public String showAddProductPage(Model model, @RequestParam(value = "parentCategory", required = false) Long id, @ModelAttribute("productToAdd") Product product){
-        model.addAttribute("productToAdd", new Product());
-        //model.addAttribute("categories", categoryService.findCategoriesByParentCategoryId(null));
+    public String showAddProductPage(Model model){
+        model.addAttribute("productToAdd", new ProductDto());
         model.addAttribute("subcategories", categoryService.getAllCategoriesList());
         model.addAttribute("units", Unit.values());
         return "add-product";
     }
 
     @PostMapping("/add-product")
-    public String showAddProductPage(@ModelAttribute("productToAdd") Product product){
-        productService.saveProduct(product);
-        return "add-product";
+    public String showAddProductPage(@ModelAttribute("productToAdd") ProductDto productDto){
+        productService.saveProduct(productConverter.convert(productDto));
+        return "redirect:/add-product";
     }
 
     @GetMapping("/admin-product-list")
@@ -148,19 +125,6 @@ public class ProductController {
         Product product = modelMapper.map(productDto, Product.class);
         productService.saveProduct(product);
         return "redirect:/admin-product-list";
-    }
-
-    @GetMapping("/test-page")
-    public String test(Model model){
-        model.addAttribute("products", productService.generateIndexProducts());
-//        model.addAttribute("cartValue", cartService.getCart().getTotal());
-        return "home";
-    }
-
-    @GetMapping("/header")
-    public String showHeader(Model model){
-        model.addAttribute("cartValue", cartService.getCart().getTotal());
-        return "header";
     }
 
 }

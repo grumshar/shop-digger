@@ -23,11 +23,12 @@ public class Product {
     private String description;
     private Long eanCode;
     private boolean highlighted;
+    private String imgUrl;
 
     public Product() {
     }
 
-    public Product(String name, BigDecimal price, Category category, Unit unit, double unitAmount, String description, Long eanCode, boolean highlighted) {
+    public Product(String name, BigDecimal price, Category category, Unit unit, double unitAmount, String description, Long eanCode, boolean highlighted, String imgUrl) {
         this.name = name;
         this.price = price;
         this.category = category;
@@ -36,6 +37,7 @@ public class Product {
         this.description = description;
         this.eanCode = eanCode;
         this.highlighted = highlighted;
+        this.imgUrl = imgUrl;
     }
 
     public Long getId() {
@@ -108,6 +110,14 @@ public class Product {
 
     public void setHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     @Override

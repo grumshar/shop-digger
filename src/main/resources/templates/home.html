@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/index.css}">
     <link rel="stylesheet" type="text/css" th:href="@{../css/index-product.css}">
     <meta charset="UTF-8">
     <title>Home Page</title>
@@ -9,13 +11,18 @@
 <body>
 
 <div th:replace="header :: header"></div>
+<div th:replace="header :: category"></div>
+
+<hr>
 
 <div class="product-box" th:each="product : ${products}">
 
     <a th:href="@{'/product-page/'+ ${product.id}}">
 
     <div class="picture">
-        <img src="https://www.imcusa.org/global_graphics/default-store-350x350.jpg" alt="Product picture">
+        <img th:if="${product.imgUrl} == ''" src="https://www.imcusa.org/global_graphics/default-store-350x350.jpg">
+        <img th:if="${product.imgUrl} != ''" th:src="${product.imgUrl}"
+             alt="Product Image">
     </div>
 
     <div class="product-info">
@@ -29,7 +36,8 @@
     </a>
 
     <div class="cart-adding">
-        <form action="#" method="POST">
+        <form th:action="@{/test-page}" method="POST">
+            <input type="hidden" name="id" th:value="${product.id}">
             <input type="number" value="1" name="productAmount" id="productAmount" min="1" max="99">
             <input type="submit" value="To Cart">
         </form>

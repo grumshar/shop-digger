@@ -15,7 +15,7 @@
     <nav class="navbar navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-div navbar-left">
-                <a class="navbar-brand" href="#">ShopDigger</a>
+                <a class="navbar-brand" th:href="@{/test-page}">ShopDigger</a>
             </div>
 
             <div class="search">
@@ -101,14 +101,14 @@
 
     <nav class="clearfix site-nav navbar-second-pushed" th:fragment="category">
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Portfolio</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Portfolio</a></li>
-            <li><a href="#">Contact</a></li>
+            <li th:each="category : ${parentCategories}" class="dropdown">
+                <button class="dropbtn category-button" th:text="${category.name}">Dropdown Menu</button>
+                <div class="dropdown-content">
+                    <a th:each="subcategory : ${bread}"
+                       th:text="${subcategory.name}"
+                       th:href="@{'/products/' + ${subcategory.id}}">Link 1</a>
+                </div>
+            </li>
         </ul>
     </nav>
 

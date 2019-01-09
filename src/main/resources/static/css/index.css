@@ -1,3 +1,10 @@
+hr {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+
 .navbar{
     background-color: #CCD7DE;
 }
@@ -42,6 +49,13 @@
     margin-right: 15px !important;
 }
 
+.category-button {
+    background-image: linear-gradient(to bottom, #CCD7DE, #FFFFFF);
+    height: 30px;
+    border: none;
+    width: 100%;
+}
+
 .account-div{
     margin: 0;
     padding: 0;
@@ -53,8 +67,8 @@
 }
 
 .site-nav {
-    border-top: 2px solid #84AE7B;
-    border-right: 2px solid #84AE7B;
+    border-top: 2px solid #CCD7DE;
+    border-right: 2px solid #CCD7DE;
 }
 
 .site-nav ul {
@@ -65,7 +79,7 @@
 .site-nav li {
     list-style: none;
     float: left;
-    border-left: 2px solid #84AE7B;
+    border-left: 2px solid #CCD7DE;
     border-bottom: none;
     border-top: none;
     width: 12.5%;
@@ -80,8 +94,8 @@
 }
 
 .site-nav a:hover {
-    background-color: #84AE7B;
-    color: #FFFFFF;
+    background-color: #CCD7DE;
+    color: #000000;
 }
 
 .clearfix::before,
@@ -119,4 +133,23 @@
     border: 2px solid #37373F;
     border-radius: 10px;
     padding: 20px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }

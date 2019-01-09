@@ -27,4 +27,6 @@ public class Cart {
     public void setTotal(BigDecimal total) {
         this.total = total;
     }
+
+
 }

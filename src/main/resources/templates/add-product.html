@@ -49,6 +49,9 @@
         <label th:for="eanCode">EAN Code</label>
         <input class="form-item" type="number" name="eanCode" id="eanCode" min="0" step="0.01" th:field="*{eanCode}">
 
+        <label th:for="eanCode">Image URL</label>
+        <input class="form-item" type="text" name="imgUrl" id="imgUrl" th:field="*{imgUrl}">
+
         <input class="form-item btn btn-secondary" type="submit" value="Send!">
 
     </form>

@@ -17,5 +17,6 @@ public interface ProductService {
     List<ProductDto> getHighlightedProducts();
     boolean setHighlighted(Long id, boolean choice);
     List<ProductDto> generateIndexProducts();
+    List<Product> getAllProducts();
 
 }
