@@ -23,7 +23,7 @@
     <thead class="thead-light">
     <tr>
         <th scope="col" class="table-small">ID</th>
-        <th scope="col" class="table-name">Name</th>
+        <th scope="col" class="table-big">Name</th>
         <th scope="col" class="table-medium">Category</th>
         <th scope="col" class="table-small">Price</th>
         <th scope="col" class="table-medium">Edit</th>
@@ -61,7 +61,7 @@
                             </button>
                         </div>
                         <div class="modal-body modal-own-text">
-                            <p th:text="'Czy usunąć produkt - ' + ${product.name} + '?'">Nazwa</p>
+                            <p th:text="'Do you want to delete product - ' + ${product.name} + '?'">Nazwa</p>
                         </div>
                         <div class="modal-footer">
                             <form th:action="@{/admin-product-list}" method="post">
@@ -78,6 +78,8 @@
     </tr>
     </tbody>
 </table>
+
+    <hr>
 
     <nav aria-label="Page navigation example">
         <ul class="pagination">

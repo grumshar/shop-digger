@@ -73,10 +73,17 @@ public class PaginationServiceImpl implements PaginationService {
 
     @Override
     public List<CategoryDto> getAllCategoriesPaged(PageRequest pageRequest) {
-        Iterable<Category> iterable = categoryRepository.findAll(pageRequest);
+        Iterable<Category> iterable = categoryRepository.findCategoriesByParentCategoryIdNotNull(pageRequest);
         List<CategoryDto> list = new ArrayList<>();
         iterable.forEach(category -> list.add(categoryConverter.convertToDto(category)));
         return list;
+    }
+
+    public List<ProductDto> getProductsByNamePaged(String name, PageRequest pageRequest){
+        List<Product> productList = productRepository.findProductsByNameContainingIgnoreCase(name, pageRequest);
+        List<ProductDto> productDtoList = new ArrayList<>();
+        productList.forEach(product -> productDtoList.add(productConverter.convertDto(product)));
+        return productDtoList;
     }
 
     @Override

@@ -108,7 +108,7 @@ public class ProductController {
     }
 
     @PostMapping("/admin-product-list")
-    public String listBooks(@RequestParam("id") Long id){
+    public String listProducts(@RequestParam("id") Long id){
         Optional<Product> product = productService.getProductById(id);
         if(productService.getProductById(id).isPresent()){
             productService.deleteProduct(product.get());
@@ -121,12 +121,6 @@ public class ProductController {
         return "admin-panel";
     }
 
-//    @PostMapping("/delete")
-//    public String deleteConfirmationDecision(@RequestParam String decision, @RequestParam Long id){
-//        if(decision.equals("YES")){
-//            productService.deleteProduct(productService.getProductById(id).get());
-//        }
-//        return "redirect:/admin-product-list";
-//    }
+
 
 }

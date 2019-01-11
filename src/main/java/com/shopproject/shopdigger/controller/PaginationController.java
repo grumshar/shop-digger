@@ -33,31 +33,31 @@ public class PaginationController {
         this.productConverter = productConverter;
     }
 
-    @GetMapping("/add-highlighted")
-    public String listProductsContainingGet(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam(required = false) String name){
-        if(name != null){
-            final int currentPage = page.orElse(1);
-            final int pageSize = 10;
-
-            Page<ProductDto> productPage = paginationService.getProductsByNameContainingIgnoreCase(PageRequest.of(currentPage - 1, pageSize), name);
-
-            model.addAttribute("productPage", productPage);
-            model.addAttribute("name", name);
-            page.ifPresent(pageNo -> model.addAttribute("page", pageNo));
-
-            int totalPages = productPage.getTotalPages();
-            if (totalPages > 0) {
-                List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                        .boxed()
-                        .collect(Collectors.toList());
-                model.addAttribute("pageNumbers", pageNumbers);
-            }
-        }
-
-        model.addAttribute("highlightedProducts", productService.getHighlightedProducts());
-
-        return "add-highlighted";
-    }
+//    @GetMapping("/add-highlighted")
+//    public String listProductsContainingGet(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam(required = false) String name){
+//        if(name != null){
+//            final int currentPage = page.orElse(1);
+//            final int pageSize = 10;
+//
+//            Page<ProductDto> productPage = paginationService.getProductsByNameContainingIgnoreCase(PageRequest.of(currentPage - 1, pageSize), name);
+//
+//            model.addAttribute("productPage", productPage);
+//            model.addAttribute("name", name);
+//            page.ifPresent(pageNo -> model.addAttribute("page", pageNo));
+//
+//            int totalPages = productPage.getTotalPages();
+//            if (totalPages > 0) {
+//                List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+//                        .boxed()
+//                        .collect(Collectors.toList());
+//                model.addAttribute("pageNumbers", pageNumbers);
+//            }
+//        }
+//
+//        model.addAttribute("highlightedProducts", productService.getHighlightedProducts());
+//
+//        return "add-highlighted";
+//    }
 
 //    @PostMapping("/add-highlighted")
 //    public String listProductsContainingPost(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam(required = false) String name, @RequestParam(required = false) Long id, @RequestParam(required = false) boolean decision) {

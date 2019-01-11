@@ -13,5 +13,6 @@ public interface ProductRepository extends CrudRepository<Product, Long>, Paging
     List<Product> findProductsByNameContainingIgnoreCase(String text);
     List<Product> findProductsByHighlightedTrue();
     List<Product> findProductsByCategoryId(Long id);
+    List<Product> findProductsByNameContainingIgnoreCase(String name, Pageable pageable);
 
 }

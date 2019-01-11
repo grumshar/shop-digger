@@ -17,12 +17,16 @@
 
     <h1>Category List</h1>
 
-    <table border="1">
-        <thead>
+    <hr>
+
+    <table class="table">
+        <thead class="thead-light"
         <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Parent Category</th>
+            <th scope="col" class="table-small">ID</th>
+            <th scope="col" class="table-big">Name</th>
+            <th scope="col" class="table-small">Parent</th>
+            <th scope="col" class="table-medium">Edit</th>
+            <th scope="col" class="table-medium">Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -31,11 +35,13 @@
             <td th:text="${category.id}">ID</td>
             <td th:text="${category.name}">Name</td>
             <td th:text="${category.parentCategoryId}">Price</td>
-            <td><a th:href="@{'/edit-category/' + ${category.id}}">Edit</a></td>
+            <td><a th:href="@{'/edit-category/' + ${category.id}}">
+                <button type="button" class="btn btn-outline-primary">Edit</button>
+            </a></td>
 
             <td>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" th:attr="data-target='#exampleModalCenter'+ ${category.id}">
+                <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter" th:attr="data-target='#exampleModalCenter'+ ${category.id}">
                     Delete
                 </button>
 
@@ -68,6 +74,8 @@
         </tr>
         </tbody>
     </table>
+
+    <hr>
 
     <nav aria-label="Page navigation example">
         <ul class="pagination">

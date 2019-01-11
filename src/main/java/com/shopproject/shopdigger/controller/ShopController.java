@@ -37,7 +37,7 @@ public class ShopController {
     @PostMapping("/")
     public String indexAddProduct(@RequestParam Long id, @RequestParam Double productAmount){
         cartService.addCartProduct(productConverter.convertDto(productService.getProductById(id).get()), productAmount);
-        return "redirect:/index";
+        return "redirect:/";
     }
 
     @GetMapping("/product-page/{id}")
