@@ -14,7 +14,9 @@
 <div class="header-nav" th:replace="header :: panel"></div>
 
 <div class="container">
-    <h1>ProductList</h1>
+    <h1>Add To Highlighted</h1>
+
+    <hr>
 
     <div th:if="${modifiedProduct != null}" class="alert alert-success" role="alert" id="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -27,17 +29,18 @@
 
     </form>
 
-    <div th:if="${name} != null">
-        <table border="1">
-            <thead>
+    <div>
+        <table class="table">
+            <thead class="thead-light">
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
+                <th scope="col" class="table-small">ID</th>
+                <th scope="col" class="table-big">Name</th>
+                <th scope="col" class="table-medium">Price</th>
+                <th scope="col" class="table-medium">Add</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="product : ${productPage.content}">
+            <tr th:each="product : ${productList}">
                 <td th:text="${product.id}">ID</td>
                 <td th:text="${product.name}">Name</td>
                 <td th:text="${product.price}">Price</td>
@@ -47,30 +50,45 @@
                         <input type="hidden" th:value="${product.id}" name="id" id="id">
                         <input type="hidden" th:value="${name}" name="name">
                         <input type="hidden" name="decision" value="true">
-                        <input class="btn btn-dark" type="submit" value="Send!">
+                        <input class="btn btn-outline-success" type="submit" value="Add">
                     </form>
                 </td>
             </tr>
             </tbody>
         </table>
 
-        <div th:if="${productPage.totalPages > 0}" class="pagination"
-             th:each="pageNumber : ${pageNumbers}">
-             <a th:href="@{/add-highlighted(size=${productPage.size}, page=${pageNumber}, name=${name})}"
-               th:text="${pageNumber}"
-               th:class="${pageNumber==productPage.number + 1} ? active"></a>
-        </div>
+        <hr>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" th:class="${currentPage <= 1} ? 'page-item disabled'">
+                    <a class="page-link" th:href="@{/admin-category-list(page=${currentPage}-1)}" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item" th:each="pageNumber : ${pages}" th:class="${pageNumber == currentPage} ? 'page-item active'">
+                    <a class="page-link" th:href="@{/admin-category-list(page=${pageNumber})}" th:text="${pageNumber}"></a>
+                </li>
+                <li class="page-item" th:class="${currentPage >= totalPages} ? 'page-item disabled'">
+                    <a class="page-link" th:href="@{/admin-category-list(page=${currentPage}+1)}" tabindex="-1" aria-disabled="true">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 
+    <hr>
+
     <h2>Highlighted Products List</h2>
+
+    <hr>
+
     <p th:if="${highlightedProducts.isEmpty()}">List is empty!</p>
     <div th:if="${!highlightedProducts.isEmpty()}">
-        <table border="1">
-            <thead>
+        <table class="table">
+            <thead class="thead-light">
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
+                <th scope="col" class="table-small">ID</th>
+                <th scope="col" class="table-big">Name</th>
+                <th scope="col" class="table-medium">Price</th>
+                <th scope="col" class="table-medium">Remove</th>
             </tr>
             </thead>
             <tbody>
@@ -84,7 +102,7 @@
                         <input type="hidden" th:value="${product.id}" name="id" id="id">
                         <input type="hidden" th:value="${name}" name="name">
                         <input type="hidden" name="decision" value="false">
-                        <input class="btn btn-dark" type="submit" value="Send!">
+                        <input class="btn btn-outline-danger" type="submit" value="Remove">
                     </form>
                 </td>
             </tr>

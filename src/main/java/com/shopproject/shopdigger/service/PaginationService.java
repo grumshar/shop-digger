@@ -16,5 +16,6 @@ public interface PaginationService {
     List<ProductDto> getAllProductsPaged(PageRequest pageRequest);
     List<CategoryDto> getAllCategoriesPaged(PageRequest pageRequest);
     List<Integer> countPaginationButtonsRange(int totalPages, int page);
+    List<ProductDto> getProductsByNamePaged(String name, PageRequest pageRequest);
 
 }

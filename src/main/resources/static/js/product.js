@@ -1,6 +1,6 @@
 setTimeout(function() {
-    $("#alert").fadeOut(1300);
-}, 5000);
+    $("#alert").fadeOut(1000);
+}, 4000);
 
 function handleEdit() {
     document.getElementById('name2').disabled = false;

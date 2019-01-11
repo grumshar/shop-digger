@@ -79,6 +79,7 @@ public class PaginationServiceImpl implements PaginationService {
         return list;
     }
 
+    @Override
     public List<ProductDto> getProductsByNamePaged(String name, PageRequest pageRequest){
         List<Product> productList = productRepository.findProductsByNameContainingIgnoreCase(name, pageRequest);
         List<ProductDto> productDtoList = new ArrayList<>();

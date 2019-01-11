@@ -101,3 +101,8 @@ label {
 .table-medium {
     width: 10%;
 }
+
+.paging-area {
+    display: flex;
+    justify-content: space-between;
+}
