@@ -1,6 +1,7 @@
 package com.shopproject.shopdigger.model;
 
 import com.shopproject.shopdigger.model.enums.OrderStatus;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime orderDate;
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     @OneToMany(mappedBy = "orderId")
     private List<OrderItem> orderItemList;
     @Enumerated
@@ -25,11 +27,12 @@ public class Order {
     public Order() {
     }
 
-    public Order(LocalDateTime orderDate, List<OrderItem> orderItemList, OrderStatus orderStatus, User user) {
-        this.orderDate = orderDate;
+    public Order(List<OrderItem> orderItemList,User user) {
+        this.orderDate = LocalDateTime.now();
         this.orderItemList = orderItemList;
-        this.orderStatus = orderStatus;
+        this.orderStatus = OrderStatus.CREATED;
         this.user = user;
+
     }
 
     public Long getId() {
@@ -79,7 +82,6 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", orderDate=" + orderDate +
-                ", orderItemList=" + orderItemList +
                 ", orderStatus=" + orderStatus +
                 '}';
     }

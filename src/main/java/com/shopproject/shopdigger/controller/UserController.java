@@ -1,11 +1,18 @@
 package com.shopproject.shopdigger.controller;
 
+import com.shopproject.shopdigger.converters.AddressConverter;
+import com.shopproject.shopdigger.converters.OrderConverter;
 import com.shopproject.shopdigger.converters.UserConverterImpl;
+import com.shopproject.shopdigger.dto.AddressDto;
+import com.shopproject.shopdigger.dto.ProductDto;
 import com.shopproject.shopdigger.dto.UserDto;
 import com.shopproject.shopdigger.model.Address;
+import com.shopproject.shopdigger.model.Order;
 import com.shopproject.shopdigger.model.User;
 import com.shopproject.shopdigger.security.provider.DatabaseAuthenticationProvider;
 import com.shopproject.shopdigger.service.AddressService;
+import com.shopproject.shopdigger.service.OrderItemService;
+import com.shopproject.shopdigger.service.OrderService;
 import com.shopproject.shopdigger.service.UserService;
 import com.shopproject.shopdigger.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +26,21 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 @Controller
 public class UserController {
+
+    @Autowired
+    private OrderConverter orderConverter;
+
+    @Autowired
+    private OrderItemService orderItemService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private AddressService addressService;
@@ -42,6 +59,9 @@ public class UserController {
 
     @Autowired
     private DatabaseAuthenticationProvider databaseAuthenticationProvider;
+
+    @Autowired
+    private AddressConverter addressConverter;
 
     @InitBinder("userDto")
     protected void initBinder(WebDataBinder binder) {
@@ -143,9 +163,9 @@ public class UserController {
 
 
         UserDto userDto = (UserDto) authentication.getPrincipal();
-        Address address = userDto.getAddress();
+        AddressDto addressDto = userDto.getAddressDto();
 
-        model.addAttribute("address",userDto.getAddress());
+        model.addAttribute("address",userDto.getAddressDto());
 
 
         return "user-address";
@@ -157,9 +177,22 @@ public class UserController {
     UserDto userDto =(UserDto) authentication.getPrincipal();
     addressService.saveAdress(address);
     Address address1 = addressService.findById(address.getId());
-    userDto.setAddress(address1);
+    userDto.setAddress(addressConverter.adressConverte(address1));
 
 
         return "user-address";
     }
+
+    @GetMapping("/user-order-list")
+    public String userOrderList(Model model,Authentication authentication) {
+
+        UserDto userDto = (UserDto) authentication.getPrincipal();
+
+        model.addAttribute("orderDtoList",orderConverter.finalOrderConverter(userDto.getId()));
+
+
+        return "user-order-list";
+    }
+
+
 }

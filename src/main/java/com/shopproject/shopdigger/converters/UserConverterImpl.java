@@ -3,6 +3,7 @@ package com.shopproject.shopdigger.converters;
 import com.shopproject.shopdigger.dto.UserDto;
 import com.shopproject.shopdigger.model.User;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -10,11 +11,17 @@ import java.util.UUID;
 @Component
 public class UserConverterImpl implements UserConverter{
 
+private AddressConverter addressConverter;
+
+    @Autowired
+    public UserConverterImpl(AddressConverter addressConverter) {
+        this.addressConverter = addressConverter;
+    }
 
     @Override
     public User convert(UserDto userDto) {
         User user = new User();
-        user.setAddress(user.getAddress());
+        user.setAddress(addressConverter.addressDtoConverter(userDto.getAddressDto()));
         user.setFirstName(userDto.getFirstName());
         user.setSecondName(userDto.getSecondName());
         user.setLogin(userDto.getLogin());
@@ -28,7 +35,7 @@ public class UserConverterImpl implements UserConverter{
     @Override
     public UserDto convertDto(User user) {
         UserDto userDto = new UserDto();
-        userDto.setAddress(user.getAddress());
+        userDto.setAddress(addressConverter.adressConverte(user.getAddress()));
         userDto.setId(user.getId());
         userDto.setFirstName(user.getFirstName());
         userDto.setSecondName(user.getSecondName());

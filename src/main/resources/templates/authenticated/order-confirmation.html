@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/index.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/cart.css}"/>
+</head>
+<body>
+
+<div th:replace="header :: header"></div>
+
+<div class="cartTable">
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Amount</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cartItem : ${cartList}">
+            <th scope="row">1</th>
+            <div th:with="cartItemInfo = ${cartItem.key}">
+                <td th:text="${cartItemInfo.name}"></td>
+                <td><input class="inputAmount" name="amount" id="amount" type="number" th:value="${cartItem.value}" disabled></td>
+
+            </div>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<form class="form-horizontal" th:object="${address}" th:action="@{/save-address-order}" method="POST">
+    <div class="form-address">
+        <input type="hidden" th:field="*{id}">
+        <div class="form-group">
+            <label for="street" class="col-sm-2 control-label" >Street</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="street" disabled th:field="*{street}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="houseNumber" class="col-sm-2 control-label" >House Number</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="houseNumber" disabled th:field="*{houseNumber}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="apartmentNumber" class="col-sm-2 control-label" >Apartment Number</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="apartmentNumber" disabled th:field="*{apartmentNumber}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="postalCode" class="col-sm-2 control-label">Postal Code</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="postalCode" disabled th:field="*{postalCode}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="city" class="col-sm-2 control-label">City</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="city" disabled th:field="*{city}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button  id="editOrderAdress" onclick="return handleEdit()">Edit</button>
+
+                <input type="submit" hidden id="saveOrderAdress" value="Save">
+
+            </div>
+        </div>
+    </div>
+</form>
+
+<form th:action="@{/put-order}" method="POST">
+    <div class="putOrder">
+        <button
+                th:disabled="${cartList.isEmpty()} ? true : false"
+                th:class="${cartList.isEmpty()} ? 'disabled' : 'normal'"
+                type="submit" >Put Order</button>
+    </div>
+</form>
+
+
+
+<script src="../js/order-adress-confirmation.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+</body>
+</html>

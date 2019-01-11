@@ -49,12 +49,14 @@
     </tr>
     </tbody>
 </table>
+    <form th:action="@{/authenticated/order-confirmation}" method="POST">
     <div>
         <button
                 th:disabled="${cartList.isEmpty()} ? true : false"
                 th:class="${cartList.isEmpty()} ? 'disabled' : 'normal'"
                 type="submit" >Put Order</button>
     </div>
+    </form>
 </div>
 
 

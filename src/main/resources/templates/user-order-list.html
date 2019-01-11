@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/index.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/cart.css}"/>
+</head>
+<body>
+
+<div class="orderList">
+<table class="table">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cartItem : ${cartList}">
+        <th scope="row">1</th>
+        <div th:with="cartItemInfo = ${cartItem.key}">
+            <td th:text="${cartItemInfo.name}"></td>
+        </div>
+    </tr>
+    </tbody>
+</table>
+</div>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+</body>
+</html>
