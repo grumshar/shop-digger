@@ -3,6 +3,7 @@ package com.shopproject.shopdigger.service.impl;
 
 import com.shopproject.shopdigger.converters.UserConverter;
 import com.shopproject.shopdigger.dao.UserRepository;
+import com.shopproject.shopdigger.dto.AddressDto;
 import com.shopproject.shopdigger.dto.UserDto;
 import com.shopproject.shopdigger.model.Address;
 import com.shopproject.shopdigger.model.User;
@@ -34,9 +35,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(UserDto userDto) {
 
+        userDto.setAddress(new AddressDto());
         User user = userConverter.convert(userDto);
         user.setUserStatus(UserStatus.NEW);
-        user.setAddress(new Address());
+//        user.setAddress(new Address());
         userRepository.save(user);
 
         String activationTitle = messageSource.getMessage("mail.activation.title", new Object[] {

@@ -11,7 +11,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "ORDER_ID")
-    private Order orderId;
+    private Order order;
     private double quantity;
     @OneToOne
     @JoinColumn(name = "PRODUCT_ID")
@@ -34,11 +34,11 @@ public class OrderItem {
     }
 
     public Order getOrderId() {
-        return orderId;
+        return order;
     }
 
-    public void setOrderId(Order orderId) {
-        this.orderId = orderId;
+    public void setOrderId(Order order) {
+        this.order = order;
     }
 
     public double getQuantity() {
@@ -63,7 +63,7 @@ public class OrderItem {
     public String toString() {
         return "OrderItem{" +
                 "id=" + id +
-                ", orderId=" + orderId +
+                ", order=" + order +
                 ", quantity=" + quantity +
                 ", productId=" + productId +
                 '}';

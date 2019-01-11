@@ -16,7 +16,7 @@ public class Order {
     private Long id;
     private LocalDateTime orderDate;
     @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
-    @OneToMany(mappedBy = "orderId")
+    @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItemList;
     @Enumerated
     private OrderStatus orderStatus;

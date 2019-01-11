@@ -104,7 +104,7 @@ public class UserController {
 
     @GetMapping("/index")
     public String home() {
-        return "index";
+        return "/";
     }
 
     @GetMapping("/login")
@@ -119,14 +119,14 @@ public class UserController {
 
     @GetMapping("/logout-done")
     public String customerLogoutDone() {
-        return "redirect:/index";
+        return "redirect:/";
     }
 
 
     @GetMapping("/shouldBeLogged")
     public String customerLogin(Model model, Authentication authentication) {
         model.addAttribute("message", "User "+authentication.getName()+" is logged");
-        return "redirect:/index";
+        return "redirect:/";
     }
 
 

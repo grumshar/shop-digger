@@ -22,11 +22,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="cartItem : ${cartList}">
+    <tr th:each="order : ${orderDtoList}">
         <th scope="row">1</th>
-        <div th:with="cartItemInfo = ${cartItem.key}">
-            <td th:text="${cartItemInfo.name}"></td>
-        </div>
+        <p>TEST</p>
     </tr>
     </tbody>
 </table>

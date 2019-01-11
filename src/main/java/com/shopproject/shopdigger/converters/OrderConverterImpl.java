@@ -19,14 +19,12 @@ import java.util.List;
 public class OrderConverterImpl implements OrderConverter {
 
     private OrderService orderService;
-    private OrderItemService orderItemService;
     private ProductService productService;
     private ProductConverter productConverter;
 
     @Autowired
-    public OrderConverterImpl(OrderService orderService, OrderItemService orderItemService, ProductService productService, ProductConverter productConverter) {
+    public OrderConverterImpl(OrderService orderService, ProductService productService, ProductConverter productConverter) {
         this.orderService = orderService;
-        this.orderItemService = orderItemService;
         this.productService = productService;
         this.productConverter = productConverter;
     }

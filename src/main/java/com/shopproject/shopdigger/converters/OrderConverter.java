@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 
-@Component
 public interface OrderConverter {
 
     public OrderDto convertOrder(Order order);
