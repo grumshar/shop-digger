@@ -1,7 +1,6 @@
 package com.shopproject.shopdigger.service.impl;
 
 import com.shopproject.shopdigger.converters.ProductConverter;
-import com.shopproject.shopdigger.converters.UserConverter;
 import com.shopproject.shopdigger.dao.ProductRepository;
 import com.shopproject.shopdigger.dto.ProductDto;
 import com.shopproject.shopdigger.model.Product;
@@ -13,8 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.*;
+import java.util.stream.IntStream;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -23,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductConverter productConverter;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, ProductConverter productConverter) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductConverter productConverter){
         this.productRepository = productRepository;
         this.productConverter = productConverter;
     }
@@ -108,6 +107,21 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         return finalList;
+    }
+
+    @Override
+    public List<Product> getProductsByCategoryId(Long id) {
+        return productRepository.findProductsByCategoryId(id);
+    }
+
+    @Override
+    public List<Product> getProductsByNameContainingIgnoreCase(String text) {
+        return productRepository.findProductsByNameContainingIgnoreCase(text);
+    }
+
+    @Override
+    public long countAll(){
+        return productRepository.count();
     }
 
 }

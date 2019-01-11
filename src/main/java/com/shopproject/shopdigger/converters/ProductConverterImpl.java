@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductConverterImpl implements ProductConverter {
 
-
     @Override
     public Product convert(ProductDto productDto) {
         Product product = new Product();
@@ -35,9 +34,10 @@ public class ProductConverterImpl implements ProductConverter {
         productDto.setUnit(product.getUnit());
         productDto.setUnitAmount(product.getUnitAmount());
         productDto.setDescription(product.getDescription());
-        productDto.setEanCode(productDto.getEanCode());
+        productDto.setEanCode(product.getEanCode());
         productDto.setHighlighted(product.isHighlighted());
         productDto.setImgUrl(product.getImgUrl());
+        productDto.setCategoryName(product.getCategory().getName());
         return productDto;
     }
 

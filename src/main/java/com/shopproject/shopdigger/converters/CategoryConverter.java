@@ -5,7 +5,7 @@ import com.shopproject.shopdigger.model.Category;
 
 public interface CategoryConverter {
 
-    Category convertToCategory(CategoryDto categoryDto);
+    Category convertToEntity(CategoryDto categoryDto);
     CategoryDto convertToDto(Category category);
 
 }

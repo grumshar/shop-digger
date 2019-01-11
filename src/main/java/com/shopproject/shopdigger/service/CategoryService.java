@@ -10,5 +10,8 @@ public interface CategoryService {
     boolean save(Category category);
     List<Category> getAllCategoriesList();
     List<Category> getCategoriesWhereParentCategoryNotNull();
+    Category getCategoryById(Long id);
+    long countAll();
+    boolean delete(Category category);
 
 }

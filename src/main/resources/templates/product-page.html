@@ -18,9 +18,9 @@
 <div class="page-content clearfix row">
 
     <div class="left-side col-12 col-sm-12 col col-md-3 col-lg-3">
-        <img th:if="${productToDisplay.imgUrl} == ''" src="https://www.imcusa.org/global_graphics/default-store-350x350.jpg">
-        <img th:if="${productToDisplay.imgUrl} != ''" th:src="${productToDisplay.imgUrl}"
-             alt="Product Image">
+        <!--<img onerror="this.src='https://www.imcusa.org/global_graphics/default-store-350x350.jpg'">-->
+        <img  th:src="${productToDisplay.imgUrl}"
+             alt="Product Image" onerror="this.src='https://www.imcusa.org/global_graphics/default-store-350x350.jpg'">
     </div>
 
     <div class="center col-12 col-sm-12 col-md-7 col-lg-7">

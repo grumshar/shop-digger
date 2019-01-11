@@ -4,6 +4,7 @@ import com.shopproject.shopdigger.dto.ProductDto;
 import com.shopproject.shopdigger.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.ui.Model;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,5 +19,7 @@ public interface ProductService {
     boolean setHighlighted(Long id, boolean choice);
     List<ProductDto> generateIndexProducts();
     List<Product> getAllProducts();
-
+    List<Product> getProductsByCategoryId(Long id);
+    List<Product> getProductsByNameContainingIgnoreCase(String text);
+    long countAll();
 }

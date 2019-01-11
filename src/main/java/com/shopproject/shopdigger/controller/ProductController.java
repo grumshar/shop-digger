@@ -1,25 +1,24 @@
 package com.shopproject.shopdigger.controller;
 
+import com.shopproject.shopdigger.converters.CategoryConverter;
 import com.shopproject.shopdigger.converters.ProductConverter;
 import com.shopproject.shopdigger.dto.ProductDto;
-import com.shopproject.shopdigger.model.Cart;
 import com.shopproject.shopdigger.model.Product;
 import com.shopproject.shopdigger.model.enums.Unit;
-import com.shopproject.shopdigger.service.CartService;
 import com.shopproject.shopdigger.service.CategoryService;
+import com.shopproject.shopdigger.service.PaginationService;
 import com.shopproject.shopdigger.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 public class ProductController {
@@ -27,65 +26,84 @@ public class ProductController {
     private ProductService productService;
     private CategoryService categoryService;
     private ModelMapper modelMapper = new ModelMapper();
-    private CartService cartService;
     private ProductConverter productConverter;
+    private CategoryConverter categoryConverter;
+    private PaginationService paginationService;
 
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService, CartService cartService,
-                             ProductConverter productConverter, Cart cart) {
+    public ProductController(ProductService productService, CategoryService categoryService,
+                             ProductConverter productConverter, CategoryConverter categoryConverter, PaginationService paginationService) {
         this.productService = productService;
         this.categoryService = categoryService;
-        this.cartService = cartService;
         this.productConverter = productConverter;
+        this.categoryConverter = categoryConverter;
+        this.paginationService = paginationService;
     }
 
     @GetMapping("/add-product")
     public String showAddProductPage(Model model){
         model.addAttribute("productToAdd", new ProductDto());
-        model.addAttribute("subcategories", categoryService.getAllCategoriesList());
+        model.addAttribute("subcategories");
         model.addAttribute("units", Unit.values());
         return "add-product";
     }
 
     @PostMapping("/add-product")
-    public String showAddProductPage(@ModelAttribute("productToAdd") ProductDto productDto){
+    public String showAddProductPage(@Valid @ModelAttribute("productToAdd") ProductDto productDto, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("subcategories");
+            model.addAttribute("units", Unit.values());
+            return "add-product";
+        }
         productService.saveProduct(productConverter.convert(productDto));
         return "redirect:/add-product";
     }
 
+    @GetMapping("/edit-product/{id}")
+    public String showEditPage(@PathVariable Long id, Model model){
+        Product product = productService.getProductById(id).get();
+        ProductDto productDto = productConverter.convertDto(product);
+        model.addAttribute("productToEdit", productDto);
+        model.addAttribute("units", Unit.values());
+        model.addAttribute("subcategories");
+        return "edit-product";
+    }
+
+    @PostMapping("/edit-product")
+    public String saveEditedProduct(@Valid @ModelAttribute("productToEdit") ProductDto productDto, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("units", Unit.values());
+            model.addAttribute("subcategories");
+            return "edit-product";
+        }
+        Product product = productConverter.convert(productDto);
+        productService.saveProduct(product);
+        return "redirect:/admin-product-list";
+    }
+
     @GetMapping("/admin-product-list")
-    public String listProducts(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
-        final int currentPage = page.orElse(1);
-        final int pageSize = size.orElse(5);
+    public String showProductList(Model model, @RequestParam(value = "page", required = false) Integer page){
+        if(page == null){
+            page = 1;
+        }
+        int size = 8;
 
-        Page<Product> productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+        List<ProductDto> productList = paginationService.getAllProductsPaged(PageRequest.of(page - 1, size));
 
-        model.addAttribute("productPage", productPage);
-
-        int totalPages = productPage.getTotalPages();
-        List<Integer> pageNumbers;
-        if (totalPages > 0 && page.isPresent()) {
-            if(totalPages <= 5){
-                pageNumbers = IntStream.rangeClosed(1, totalPages)
-                        .boxed()
-                        .collect(Collectors.toList());
-            }
-            else if(page.get() <= 2){
-                pageNumbers = IntStream.rangeClosed(1, 5)
-                        .boxed()
-                        .collect(Collectors.toList());
-            } else if((totalPages - page.get()) <= 2){
-                pageNumbers = IntStream.rangeClosed(page.get() - 5, totalPages)
-                        .boxed()
-                        .collect(Collectors.toList());
-            } else {
-                pageNumbers = IntStream.rangeClosed(page.get() - 2, page.get() + 2)
-                        .boxed()
-                        .collect(Collectors.toList());
-            }
-            model.addAttribute("pageNumbers", pageNumbers);
+        int totalPages;
+        long totalPagesCondition = productService.countAll() / size;
+        if(productService.countAll() % size == 0 ){
+            totalPages = (int)totalPagesCondition;
+        } else {
+            totalPages = (int)totalPagesCondition + 1;
         }
 
+        List<Integer> pages = paginationService.countPaginationButtonsRange(totalPages, page);
+
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pages", pages);
+        model.addAttribute("productList", productList);
         return "admin-product-list";
     }
 
@@ -103,28 +121,12 @@ public class ProductController {
         return "admin-panel";
     }
 
-    @PostMapping("/delete")
-    public String deleteConfirmationDecision(@RequestParam String decision, @RequestParam Long id){
-        if(decision.equals("YES")){
-            productService.deleteProduct(productService.getProductById(id).get());
-        }
-        return "redirect:/admin-product-list";
-    }
-
-    @GetMapping("/edit-product/{id}")
-    public String showEditPage(@PathVariable Long id, Model model){
-        Product product = productService.getProductById(id).get();
-        model.addAttribute("productToEdit", product);
-        model.addAttribute("units", Unit.values());
-        model.addAttribute("subcategories", categoryService.getAllCategoriesList());
-        return "edit-product";
-    }
-
-    @PostMapping("/edit-product")
-    public String saveEditedProduct(@ModelAttribute ProductDto productDto){
-        Product product = modelMapper.map(productDto, Product.class);
-        productService.saveProduct(product);
-        return "redirect:/admin-product-list";
-    }
+//    @PostMapping("/delete")
+//    public String deleteConfirmationDecision(@RequestParam String decision, @RequestParam Long id){
+//        if(decision.equals("YES")){
+//            productService.deleteProduct(productService.getProductById(id).get());
+//        }
+//        return "redirect:/admin-product-list";
+//    }
 
 }

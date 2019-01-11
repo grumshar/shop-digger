@@ -28,16 +28,16 @@ public class ShopController {
         this.cartService = cartService;
     }
 
-    @GetMapping("/test-page")
+    @GetMapping("/")
     public String test(Model model){
         model.addAttribute("products", productService.generateIndexProducts());
-        return "home";
+        return "index";
     }
 
-    @PostMapping("/test-page")
+    @PostMapping("/")
     public String indexAddProduct(@RequestParam Long id, @RequestParam Double productAmount){
         cartService.addCartProduct(productConverter.convertDto(productService.getProductById(id).get()), productAmount);
-        return "redirect:/test-page";
+        return "redirect:/index";
     }
 
     @GetMapping("/product-page/{id}")
@@ -53,4 +53,34 @@ public class ShopController {
         cartService.addCartProduct(productConverter.convertDto(productService.getProductById(id).get()), productAmount);
         return "redirect:/product-page/" + id;
     }
+
+    @GetMapping("/products/{id}")
+    public String showCategoryProducts(@PathVariable Long id, Model model){
+        model.addAttribute("productsWithCategory", productService.getProductsByCategoryId(id));
+        return "products";
+    }
+
+    @PostMapping("/products/{id}")
+    public String addToCartFromProductsPageCategory(@PathVariable Long id, Model model,
+                                                    @RequestParam Long productId, @RequestParam Double productAmount){
+        model.addAttribute("productsWithCategory", productService.getProductsByCategoryId(id));
+        cartService.addCartProduct(productConverter.convertDto(productService.getProductById(productId).get()), productAmount);
+        return "redirect:/products/"+id;
+    }
+
+    @GetMapping("/products")
+    public String showProductsWithName(Model model, @RequestParam String productName){
+        model.addAttribute("productsWithName", productService.getProductsByNameContainingIgnoreCase(productName));
+        model.addAttribute("pattern", productName);
+        return "products";
+    }
+
+    @PostMapping("/products")
+    public String addToCartFromProductsPageName(@RequestParam String pattern,
+                                                @RequestParam Long id, @RequestParam Double productAmount){
+
+        cartService.addCartProduct(productConverter.convertDto(productService.getProductById(id).get()), productAmount);
+        return "redirect:/products?productName="+pattern;
+    }
+
 }

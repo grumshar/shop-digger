@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class CategoryConverterImpl implements CategoryConverter {
 
     @Override
-    public Category convertToCategory(CategoryDto categoryDto){
+    public Category convertToEntity(CategoryDto categoryDto){
         Category category = new Category();
         category.setId(categoryDto.getId());
         category.setName(categoryDto.getName());

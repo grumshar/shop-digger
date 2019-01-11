@@ -15,13 +15,13 @@
     <nav class="navbar navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-div navbar-left">
-                <a class="navbar-brand" th:href="@{/test-page}">ShopDigger</a>
+                <a class="navbar-brand" th:href="@{/}">ShopDigger</a>
             </div>
 
             <div class="search">
-                <form class="navbar-form navbar-left" action="/action_page.php">
+                <form class="navbar-form navbar-left" th:action="@{/products}">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search">
+                        <input type="text" name="productName" class="form-control" placeholder="Search">
                         <div class="input-group-btn">
                             <button class="btn btn-default" type="submit">
                                 <i class="glyphicon glyphicon-search"></i>

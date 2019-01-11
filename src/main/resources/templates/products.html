@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/index-product.css}">
+</head>
+<body>
+
+<div th:replace="header :: header"></div>
+<div th:replace="header :: category"></div>
+
+<hr>
+
+<div class="container-box clearfix">
+
+    <!--<div class="test-form">-->
+
+        <!--<label for="orderSort">Sortuj</label>-->
+        <!--<select id="orderSort">-->
+            <!--<option>Po nazwie rosnąco</option>-->
+            <!--<option>Po nazwie malejąco</option>-->
+            <!--<option>Po cenie rosnąco</option>-->
+            <!--<option>Po cenie malejąco</option>-->
+        <!--</select>-->
+
+        <!--<label for="range">Cena</label>-->
+        <!--<div id="range">-->
+            <!--<input type="number">-->
+            <!--<input type="number">-->
+        <!--</div>-->
+
+    <!--</div>-->
+
+    <div class="products-view">
+        <div class="product-box" th:if="${productsWithName != null}" th:each="product : ${productsWithName}">
+
+            <a th:href="@{'/product-page/'+ ${product.id}}">
+
+                <div class="picture">
+                    <img th:src="${product.imgUrl}"
+                          alt="Product Image" onerror="this.src='https://www.imcusa.org/global_graphics/default-store-350x350.jpg'">
+                </div>
+
+                <div class="product-info">
+
+                    <p class="product-name" th:text="${product.name}">Super produkt</p>
+                    <p th:text="${product.unitAmount} + ' ' + ${product.unit}">800 g</p>
+                    <p class="price-value" th:text="${product.price} + ' PLN'">27.99 PLN</p>
+
+                </div>
+
+            </a>
+
+            <div class="cart-adding">
+                <form th:with="category = ${product.category}"
+                      th:action="@{/products}" method="POST">
+                    <input type="hidden" name="id" th:value="${product.id}">
+                    <input type="hidden" th:value="${pattern}" name="pattern">
+                    <input type="number" value="1" name="productAmount" id="productAmount" min="1" max="99">
+                    <input type="submit" value="To Cart">
+                </form>
+            </div>
+
+        </div>
+
+        <div class="product-box" th:if="${productsWithName == null}" th:each="product : ${productsWithCategory}">
+
+            <a th:href="@{'/product-page/'+ ${product.id}}">
+
+                <div class="picture">
+                    <img th:src="${product.imgUrl}"
+                         alt="Product Image" onerror="this.src='https://www.imcusa.org/global_graphics/default-store-350x350.jpg'">
+                </div>
+
+                <div class="product-info">
+
+                    <p class="product-name" th:text="${product.name}">Super produkt</p>
+                    <p th:text="${product.unitAmount} + ' ' + ${product.unit}">800 g</p>
+                    <p class="price-value" th:text="${product.price} + ' PLN'">27.99 PLN</p>
+
+                </div>
+
+            </a>
+
+            <div class="cart-adding">
+                <form th:with="category = ${product.category}"
+                      th:action="@{'/products/'+ ${category.id}}" method="POST">
+                    <input type="hidden" name="productId" th:value="${product.id}">
+                    <input type="number" value="1" name="productAmount" id="productAmount" min="1" max="99">
+                    <input type="submit" value="To Cart">
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,24 +1,48 @@
 <!DOCTYPE html>
-<html lang="en"></html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{../css/index.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{../css/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/index-product.css}">
     <meta charset="UTF-8">
     <title>Home Page</title>
 </head>
 <body>
 
 <div th:replace="header :: header"></div>
+<div th:replace="header :: category"></div>
 
+<hr>
 
+<div class="product-box" th:each="product : ${products}">
 
+    <a th:href="@{'/product-page/'+ ${product.id}}">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <div class="picture">
+            <img th:src="${product.imgUrl}"
+                 alt="Product Image" onerror="this.src='https://www.imcusa.org/global_graphics/default-store-350x350.jpg'">
+        </div>
 
+        <div class="product-info">
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <p class="product-name" th:text="${product.name}">Super produkt</p>
+            <p th:text="${product.unitAmount} + ' ' + ${product.unit}">800 g</p>
+            <p class="price-value" th:text="${product.price} + ' PLN'">27.99 PLN</p>
+
+        </div>
+
+    </a>
+
+    <div class="cart-adding">
+        <form th:action="@{/test-page}" method="POST">
+            <input type="hidden" name="id" th:value="${product.id}">
+            <input type="number" value="1" name="productAmount" id="productAmount" min="1" max="99">
+            <input type="submit" value="To Cart">
+        </form>
+    </div>
+
+</div>
+
 </body>
 </html>

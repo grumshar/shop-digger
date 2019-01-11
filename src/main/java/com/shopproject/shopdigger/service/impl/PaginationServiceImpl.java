@@ -1,8 +1,10 @@
 package com.shopproject.shopdigger.service.impl;
 
+import com.shopproject.shopdigger.converters.CategoryConverter;
 import com.shopproject.shopdigger.converters.ProductConverter;
 import com.shopproject.shopdigger.dao.CategoryRepository;
 import com.shopproject.shopdigger.dao.ProductRepository;
+import com.shopproject.shopdigger.dto.CategoryDto;
 import com.shopproject.shopdigger.dto.ProductDto;
 import com.shopproject.shopdigger.model.Category;
 import com.shopproject.shopdigger.model.Product;
@@ -19,6 +21,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class PaginationServiceImpl implements PaginationService {
@@ -26,12 +30,17 @@ public class PaginationServiceImpl implements PaginationService {
     private ProductRepository productRepository;
     private CategoryService categoryService;
     private ProductConverter productConverter;
+    private CategoryRepository categoryRepository;
+    private CategoryConverter categoryConverter;
 
     @Autowired
-    public PaginationServiceImpl(ProductRepository productRepository, CategoryService categoryService, ProductConverter productConverter) {
+    public PaginationServiceImpl(ProductRepository productRepository, CategoryService categoryService, ProductConverter productConverter,
+                                 CategoryRepository categoryRepository, CategoryConverter categoryConverter) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
         this.productConverter = productConverter;
+        this.categoryRepository = categoryRepository;
+        this.categoryConverter = categoryConverter;
     }
 
     @Override
@@ -55,22 +64,43 @@ public class PaginationServiceImpl implements PaginationService {
     }
 
     @Override
-    public Page<Category> getAllCategoriesPaged(Pageable pageable) {
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<Category> list;
-        List<Category> categories = categoryService.getCategoriesWhereParentCategoryNotNull();
+    public List<ProductDto> getAllProductsPaged(PageRequest pageRequest){
+        Iterable<Product> iterable =  productRepository.findAll(pageRequest);
+        List<ProductDto> productDtoList = new ArrayList<>();
+        iterable.forEach(product -> productDtoList.add(productConverter.convertDto(product)));
+        return productDtoList;
+    }
 
-        if (categories.size() < startItem) {
-            list = Collections.emptyList();
+    @Override
+    public List<CategoryDto> getAllCategoriesPaged(PageRequest pageRequest) {
+        Iterable<Category> iterable = categoryRepository.findAll(pageRequest);
+        List<CategoryDto> list = new ArrayList<>();
+        iterable.forEach(category -> list.add(categoryConverter.convertToDto(category)));
+        return list;
+    }
+
+    @Override
+    public List<Integer> countPaginationButtonsRange(int totalPages, int page){
+        int min;
+        int max;
+        if(totalPages < 5){
+            min = 1;
+            max = totalPages;
         } else {
-            int toIndex = Math.min(startItem + pageSize, categories.size());
-            list = categories.subList(startItem, toIndex);
+            if(page - 2 <= 0){
+                min = 1;
+                max = 5;
+            } else if(page + 2 >= totalPages){
+                min = totalPages - 4;
+                max = totalPages;
+            }
+            else {
+                min = page - 2;
+                max = page + 2;
+            }
         }
 
-        Page<Category> productPage = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), categories.size());
-
-        return productPage;
+        return IntStream.rangeClosed(min, max).boxed().collect(Collectors.toList());
     }
+
 }

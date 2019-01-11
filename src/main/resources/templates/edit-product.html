@@ -16,17 +16,23 @@
 
         <h2>Edit product</h2>
 
+        <hr>
+
         <input type="hidden" th:field="*{id}">
         <input type="hidden" th:field="*{highlighted}">
 
         <label for="name">Name</label>
         <input class="form-item" type="text" name="name" id="name" th:field="*{name}">
+        <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
 
         <label th:for="price">Price</label>
         <input class="form-item" type="number" name="price" id="price" min="0" step="0.01" th:field="*{price}">
+        <p class="alert alert-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Name Error</p>
+
 
         <label th:for="unitAmount">Unit Amount</label>
         <input class="form-item" type="number" name="unitAmount" id="unitAmount" min="0" step="0.1" value=50 th:field="*{unitAmount}">
+        <p class="alert alert-danger" th:if="${#fields.hasErrors('unitAmount')}" th:errors="*{unitAmount}">Name Error</p>
 
         <label th:for="unit">Unit</label>
         <select class="form-item" th:field="*{unit}" id="unit" name="unit">
@@ -35,6 +41,8 @@
                     th:text="${unit}">
             </option>
         </select>
+        <p class="alert alert-danger" th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}">Name Error</p>
+
 
         <label th:for="category">Category</label>
         <select class="form-item" th:field="*{category}" id="category" name="category">
@@ -45,17 +53,24 @@
                     th:text="${subcategory.name}">
             </option>
         </select>
+        <p class="alert alert-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}">Name Error</p>
+
 
         <label th:for="description">Description</label>
         <textarea class="form-item" id="description" name="description" th:field="*{description}"></textarea>
+        <p class="alert alert-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Name Error</p>
+
 
         <label th:for="eanCode">EAN Code</label>
-        <input class="form-item" type="number" name="eanCode" id="eanCode" min="0" step="0.01" th:field="*{eanCode}">
+        <input class="form-item" type="number" name="eanCode" id="eanCode" min="0" step="1" th:field="*{eanCode}">
+        <p class="alert alert-danger" th:if="${#fields.hasErrors('eanCode')}" th:errors="*{eanCode}">Name Error</p>
 
-        <label th:for="eanCode">Image URL</label>
+
+        <label th:for="imgUrl">Image URL</label>
         <input class="form-item" type="text" name="imgUrl" id="imgUrl" th:field="*{imgUrl}">
+        <p class="alert alert-danger" th:if="${#fields.hasErrors('imgUrl')}" th:errors="*{imgUrl}">Name Error</p>
 
-        <input class="form-item" type="submit" value="Send!">
+        <input class="form-item btn btn-secondary" type="submit" value="Save Product!">
 
     </form>
 

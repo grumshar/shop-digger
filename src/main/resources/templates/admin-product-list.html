@@ -17,30 +17,35 @@
 
 <h1>Product List</h1>
 
+<hr>
+
 <table class="table">
     <thead class="thead-light">
     <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Category</th>
-        <th scope="col">Price</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
+        <th scope="col" class="table-small">ID</th>
+        <th scope="col" class="table-name">Name</th>
+        <th scope="col" class="table-medium">Category</th>
+        <th scope="col" class="table-small">Price</th>
+        <th scope="col" class="table-medium">Edit</th>
+        <th scope="col" class="table-medium">Delete</th>
 
     </tr>
     </thead>
     <tbody>
-    <tr th:each="product : ${productPage.content}"
+    <tr th:each="product : ${productList}"
         th:with="name=${product.name}">
         <td th:text="${product.id}">ID</td>
         <td th:text="${product.name}">Name</td>
-        <td th:text="${product.category}">Category</td>
+        <td th:text="${product.categoryName}">Category</td>
         <td th:text="${product.price}">Price</td>
-        <td><a th:href="@{'/edit-product/' + ${product.id}}">Edit</a></td>
+        <td><a th:href="@{'/edit-product/' + ${product.id}}">
+            <button type="button" class="btn btn-outline-primary">Edit</button>
+        </a></td>
+
 
         <td>
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" th:attr="data-target='#exampleModalCenter'+ ${product.id}">
+            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter" th:attr="data-target='#exampleModalCenter'+ ${product.id}">
                 Delete
             </button>
 
@@ -74,15 +79,19 @@
     </tbody>
 </table>
 
-<nav aria-label="Page navigation">
-<ul th:if="${productPage.totalPages > 0}" class="pagination">
-     <li class="page-item"><a href="#">Previous</a></li>
-     <li class="page-item" th:each="pageNumber : ${pageNumbers}"><a class="page-link" th:href="@{/admin-product-list(size=${productPage.size}, page=${pageNumber})}"
-       th:text="${pageNumber}"></a></li>
-    <li class="page-item"><a href="#">Next</a></li>
-
-</ul>
-</nav>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" th:class="${currentPage <= 1} ? 'page-item disabled'">
+                <a class="page-link" th:href="@{/admin-product-list(page=${currentPage}-1)}" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item" th:each="pageNumber : ${pages}" th:class="${pageNumber == currentPage} ? 'page-item active'">
+                <a class="page-link" th:href="@{/admin-product-list(page=${pageNumber})}" th:text="${pageNumber}"></a>
+            </li>
+            <li class="page-item" th:class="${currentPage >= totalPages} ? 'page-item disabled'">
+                <a class="page-link" th:href="@{/admin-product-list(page=${currentPage}+1)}" tabindex="-1" aria-disabled="true">Next</a>
+            </li>
+        </ul>
+    </nav>
 
 </div>
 

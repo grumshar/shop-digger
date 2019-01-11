@@ -172,3 +172,17 @@ input[type="submit"]:hover {
 .clearfix::after {
     clear: both;
 }
+
+/**/
+
+.test-form {
+    float: left;
+    border: 1px solid black;
+    width: 20%;
+    height: 300px;
+}
+
+/*.products-view {*/
+    /*float: left;*/
+    /*width: 80%;*/
+/*}*/

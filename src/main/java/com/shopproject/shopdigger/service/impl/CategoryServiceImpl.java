@@ -50,6 +50,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category getCategoryById(Long id) {
+        return categoryRepository.findCategoryById(id);
+    }
+
+    @Override
     public List<Category> getAllCategoriesList() {
         List<Category> categoryList = new ArrayList<>();
         categoryRepository.findAll().forEach(category -> categoryList.add(category));
@@ -74,4 +79,17 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return categoryList;
     }
+
+    @Override
+    public boolean delete(Category category) {
+        categoryRepository.delete(category);
+        return true;
+    }
+
+    @Override
+    public long countAll() {
+        return categoryRepository.count();
+    }
+
+
 }

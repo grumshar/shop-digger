@@ -20,9 +20,8 @@
     <a th:href="@{'/product-page/'+ ${product.id}}">
 
     <div class="picture">
-        <img th:if="${product.imgUrl} == ''" src="https://www.imcusa.org/global_graphics/default-store-350x350.jpg">
-        <img th:if="${product.imgUrl} != ''" th:src="${product.imgUrl}"
-             alt="Product Image">
+        <img th:src="${product.imgUrl}"
+              alt="Product Image" onerror="this.src='https://www.imcusa.org/global_graphics/default-store-350x350.jpg'">
     </div>
 
     <div class="product-info">

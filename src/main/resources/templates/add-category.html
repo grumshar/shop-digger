@@ -17,7 +17,7 @@
 
         <label th:for="parentCategoryId">Parent Category</label>
         <select class="form-item" th:field="*{parentCategoryId}" id="parentCategoryId" name="parentCategoryId">
-            <option th:each="parentCategory : ${categories}"
+            <option th:each="parentCategory : ${mainCategories}"
                     th:value="${parentCategory.id}"
                     th:text="${parentCategory.name}">
             </option>
@@ -25,8 +25,10 @@
 
         <label th:for="name">Subcategory name</label>
         <input class="form-item" type="text" name="name" id="name" th:field="*{name}">
+        <p class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</p>
 
-        <input class="form-item btn btn-secondary" type="submit" value="Send!">
+
+        <input class="form-item btn btn-secondary" type="submit" value="Add Category!">
 
     </form>
     </div>

@@ -2,11 +2,15 @@ package com.shopproject.shopdigger.dto;
 
 import com.shopproject.shopdigger.model.Product;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class CategoryDto {
 
     private Long id;
+    @NotNull
+    @Size(min = 1, message = "Enter category name, please.")
     private String name;
     private Long parentCategoryId;
     private List<Product> productList;

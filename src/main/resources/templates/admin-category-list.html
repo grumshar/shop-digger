@@ -26,7 +26,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="category : ${categoryPage.content}"
+        <tr th:each="category : ${categoryList}"
             th:with="name=${category.name}">
             <td th:text="${category.id}">ID</td>
             <td th:text="${category.name}">Name</td>
@@ -51,10 +51,10 @@
                                 </button>
                             </div>
                             <div class="modal-body modal-own-text">
-                                <p th:text="'Czy usunąć produkt - ' + ${category.name} + '?'">Nazwa</p>
+                                <p th:text="'Do you want to delete category - ' + ${category.name} + '?'">Nazwa</p>
                             </div>
                             <div class="modal-footer">
-                                <form th:action="@{/admin-product-list}" method="post">
+                                <form th:action="@{/admin-category-list}" method="post">
                                     <input type="hidden" name="id" th:value="${category.id}">
                                     <input type="submit" name="decision" value="YES" class="btn btn-danger">
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">NO</button>
@@ -68,12 +68,21 @@
         </tr>
         </tbody>
     </table>
-    <div th:if="${categoryPage.totalPages > 0}" class="pagination"
-         th:each="pageNumber : ${pageNumbers}">
-        <a th:href="@{/admin-product-list(size=${categoryPage.size}, page=${pageNumber})}"
-           th:text="${pageNumber}"
-           th:class="${pageNumber==categoryPage.number + 1} ? active"></a>
-    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" th:class="${currentPage <= 1} ? 'page-item disabled'">
+                <a class="page-link" th:href="@{/admin-category-list(page=${currentPage}-1)}" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item" th:each="pageNumber : ${pages}" th:class="${pageNumber == currentPage} ? 'page-item active'">
+                <a class="page-link" th:href="@{/admin-category-list(page=${pageNumber})}" th:text="${pageNumber}"></a>
+            </li>
+            <li class="page-item" th:class="${currentPage >= totalPages} ? 'page-item disabled'">
+                <a class="page-link" th:href="@{/admin-category-list(page=${currentPage}+1)}" tabindex="-1" aria-disabled="true">Next</a>
+            </li>
+        </ul>
+    </nav>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
