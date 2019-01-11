@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -47,7 +48,7 @@ public class OrderConverterImpl implements OrderConverter {
     @Override
     public OrderItemDto convertOrderItem(OrderItem orderItem) {
 
-        Product product = productService.getProductById(orderItem.getId()).get();
+        Product product = productService.getProductById(orderItem.getProductId().getId()).get();
         ProductDto productDto = productConverter.convertDto(product);
         OrderItemDto orderItemDto = new OrderItemDto();
         orderItemDto.setQuantity(orderItem.getQuantity());
@@ -67,6 +68,8 @@ public class OrderConverterImpl implements OrderConverter {
         for (Order order : orderList) {
             orderDtoList.add(convertOrder(order));
         }
+
+        System.out.println(orderDtoList);
 
         return orderDtoList;
 

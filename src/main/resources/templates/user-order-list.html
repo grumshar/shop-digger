@@ -22,9 +22,21 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="order : ${orderDtoList}">
+    <tr th:each="order : ${orderDtoList}"
+        th:with="aa=${order.getOrderItemDtoList()}">
         <th scope="row">1</th>
-        <p>TEST</p>
+        <div th:with="orderInfo = ${order}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.localDateTime}"></td>
+            <td th:each="orderItem : ${aa}">
+               <p th:text="${orderItem.price}"></p>
+                <p th:text="${orderItem.productName}"></p>
+                <p th:text="${orderItem.quantity}"></p>
+
+            </td>
+
+        </div>
+
     </tr>
     </tbody>
 </table>

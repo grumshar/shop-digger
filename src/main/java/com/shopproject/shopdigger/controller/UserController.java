@@ -3,9 +3,7 @@ package com.shopproject.shopdigger.controller;
 import com.shopproject.shopdigger.converters.AddressConverter;
 import com.shopproject.shopdigger.converters.OrderConverter;
 import com.shopproject.shopdigger.converters.UserConverterImpl;
-import com.shopproject.shopdigger.dto.AddressDto;
-import com.shopproject.shopdigger.dto.ProductDto;
-import com.shopproject.shopdigger.dto.UserDto;
+import com.shopproject.shopdigger.dto.*;
 import com.shopproject.shopdigger.model.Address;
 import com.shopproject.shopdigger.model.Order;
 import com.shopproject.shopdigger.model.User;
@@ -187,9 +185,8 @@ public class UserController {
     public String userOrderList(Model model,Authentication authentication) {
 
         UserDto userDto = (UserDto) authentication.getPrincipal();
-
+        List<OrderDto> orderList = orderConverter.finalOrderConverter(userDto.getId());
         model.addAttribute("orderDtoList",orderConverter.finalOrderConverter(userDto.getId()));
-
 
         return "user-order-list";
     }

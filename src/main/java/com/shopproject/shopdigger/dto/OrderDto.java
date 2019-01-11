@@ -49,4 +49,15 @@ public class OrderDto {
     public void setOrderItemDtoList(List<OrderItemDto> orderItemDtoList) {
         this.orderItemDtoList = orderItemDtoList;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDto{" +
+                "id=" + id +
+                ", localDateTime=" + localDateTime +
+                ", orderItemDtoList=" + orderItemDtoList +
+                '}';
+    }
 }
+
+
