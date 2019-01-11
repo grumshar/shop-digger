@@ -27,7 +27,7 @@ public class UserDto implements UserDetails {
 
     private String login;
 
-    private Address address;
+    private AddressDto addressDto;
 
     private UserStatus userStatus;
 
@@ -146,12 +146,12 @@ public class UserDto implements UserDetails {
         this.login = login;
     }
 
-    public Address getAddress() {
-        return address;
+    public AddressDto getAddressDto() {
+        return addressDto;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddress(AddressDto addressDto) {
+        this.addressDto = addressDto;
     }
 
     @Override
@@ -165,7 +165,7 @@ public class UserDto implements UserDetails {
                 ", password='" + password + '\'' +
                 ", matchingPassword='" + matchingPassword + '\'' +
                 ", login='" + login + '\'' +
-                ", address=" + address +
+                ", address=" + addressDto +
                 ", userStatus=" + userStatus +
                 '}';
     }

@@ -43,17 +43,23 @@ public class UserValidator implements Validator {
         if (StringUtils.isEmpty(userDto.getFirstName())) {
             errors.rejectValue("firstName", "NotNull.customerModel.firstName");
         }
-
+        Pattern emailPattern = Pattern.compile(EMAIL_PATTERN,
+                Pattern.CASE_INSENSITIVE);
         Pattern loginPattern = Pattern.compile(LOGIN_PATTERN,
                 Pattern.CASE_INSENSITIVE);
-//        if (!(loginPattern.matcher(userDto.getLogin()).matches())) {
-//            errors.rejectValue("login", "customerModel.login.pattern");
-//        }
+        Pattern phonePattern = Pattern.compile(PHONE_PATTERN,
+                Pattern.CASE_INSENSITIVE);
+       if (!(loginPattern.matcher(userDto.getLogin()).matches())) {
+            errors.rejectValue("login", "customerModel.login.pattern");
+        }
         if (user != null) {
             errors.rejectValue("login", "customerModel.login.exist");
         }
         if (!userDto.getPassword().equals(userDto.getMatchingPassword())) {
             errors.rejectValue("password", "customerModel.password.pattern");
+        }
+        if (!(phonePattern.matcher(userDto.getPhoneNumber()).matches())) {
+            errors.rejectValue("phoneNumber", "customerModel.phoneNumber.pattern");
         }
     }
 }

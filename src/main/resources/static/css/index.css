@@ -1,5 +1,4 @@
 hr {
-    margin: 15px 0px;
     border: 0;
     height: 1px;
     background: #333;
@@ -141,7 +140,7 @@ hr {
 }
 
 .logIn{
-    margin-top: 10px;
+    margin-top: 7px;
     margin-right: auto;
     margin-left: auto;
     display: block;
@@ -174,4 +173,24 @@ hr {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+.or {
+    margin-top: 7px;
+    height: 30px;
+    width: 27px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+}
+.loginRegister{
+
+    margin-top: 7px;
+    height: 30px;
+    width: 73px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+
 }
